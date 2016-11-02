@@ -40,8 +40,8 @@ public int main (string[] args)
 	Test.add_func ("/float128", () => {
 		float128 f = 12.5;
 		assert (12.5 == (double) f);
-		assert ("1.096910e+00" == "%Qe".printf (Numeric.Math.log10q (f)));
-		assert ("1.189731e+4932" == "%Qe".printf (float128.MAX));
+		assert ("1.096910e+00" == Numeric.Math.log10q (f).to_string ("%Qe"));
+		assert ("1.189731e+4932" == float128.MAX.to_string ("%Qe"));
 		assert (12.5 == float128.parse ("12.5"));
 	});
 

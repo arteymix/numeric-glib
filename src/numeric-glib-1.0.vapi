@@ -57,6 +57,19 @@ namespace Numeric
 		public const int MAX_10_EXP;
 		[CCode (cname = "strtoflt128", cheader_filename = "quadmath.h")]
 		public static float128 parse (string s, out char sp = null);
+		[CCode (cname = "quadmath_snprintf")]
+		private static int _quadmath_snprintf (char[] s, string format, ...);
+		public string to_string (string format = "%Q")
+		{
+			var buffer = new char[128];
+			var n = _quadmath_snprintf (buffer, format, this);
+			if (n >= buffer.length) {
+				buffer = new char[n + 1];
+				_quadmath_snprintf (buffer, format, this);
+			}
+			return (string) buffer;
+
+		}
 	}
 
 	[FloatingType (rank = 6)]
