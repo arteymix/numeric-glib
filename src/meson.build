@@ -1,6 +1,7 @@
 numeric_glib_lib = library('numeric-glib-1.0', 'numeric.c',
                            dependencies: [glib, gobject],
-                           link_args: '-Wl,-init=numeric_init')
+                           link_args: '-Wl,-init=numeric_init',
+                           install: true)
 
 numeric_glib = declare_dependency(link_with: numeric_glib_lib,
                                   include_directories: include_directories('.'),
