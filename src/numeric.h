@@ -21,8 +21,6 @@
 
 #include <glib-object.h>
 
-#include <complex.h>
-
 G_BEGIN_DECLS
 
 #define DEFINE_NUMERIC_PROTOTYPE(type,ctype)                     \
