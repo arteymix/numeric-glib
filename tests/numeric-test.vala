@@ -37,9 +37,12 @@ public int main (string[] args)
 		assert (sizeof (complex) == 16);
 	});
 
-	Test.add_func ("/declaration", () => {
+	Test.add_func ("/float128", () => {
 		float128 f = 12.5;
 		assert (12.5 == (double) f);
+		assert ("1.096910e+00" == "%Qe".printf (Numeric.Math.log10q (f)));
+		assert ("1.189731e+4932" == "%Qe".printf (float128.MAX));
+		assert (12.5 == float128.parse ("12.5"));
 	});
 
 	Test.add_func ("/transform", () => {
