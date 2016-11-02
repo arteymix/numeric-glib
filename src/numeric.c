@@ -42,12 +42,14 @@ numeric_##type##_free (numeric_##type *num)            \
 DEFINE_NUMERIC (int128)
 DEFINE_NUMERIC (uint128)
 // DEFINE_NUMERIC (float16)
+DEFINE_NUMERIC (float80)
 DEFINE_NUMERIC (float128)
 DEFINE_NUMERIC (decimal32)
 DEFINE_NUMERIC (decimal64)
 DEFINE_NUMERIC (decimal128)
 DEFINE_NUMERIC (complex)
-// DEFINE_NUMERIC (complex128)
+DEFINE_NUMERIC (complex80)
+DEFINE_NUMERIC (complex128)
 
 void numeric_init ()
 {

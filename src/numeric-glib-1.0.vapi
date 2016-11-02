@@ -33,6 +33,9 @@ namespace Numeric
 	public struct float16 {}
 
 	[FloatingType (rank = 12)]
+	public struct float80 {}
+
+	[FloatingType (rank = 12)]
 	public struct float128 {}
 
 	[FloatingType (rank = 6)]
@@ -46,6 +49,9 @@ namespace Numeric
 
 	[FloatingType (rank = 6)]
 	public struct complex {}
+
+	[FloatingType (rank = 12)]
+	public struct complex80 {}
 
 	[FloatingType (rank = 12)]
 	public struct complex128 {}

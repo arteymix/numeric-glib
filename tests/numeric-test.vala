@@ -26,6 +26,7 @@ public int main (string[] args)
 		assert (sizeof (int128) == 16);
 		assert (sizeof (uint128) == 16);
 
+		assert (sizeof (float80) == 16);
 		assert (sizeof (float128) == 16);
 
 		assert (sizeof (decimal32) == 4);
