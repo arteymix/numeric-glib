@@ -5,10 +5,9 @@ Numeric data types for GLib via GCC extensions
 # Features
 
  - 128 bit integers with `int128` and `uint128`
- - half-precision `float16`
- - quad-precision `float128`
+ - half-precision `float16`, `float80` and quad-precision `float128`
  - decimal with `decimal32`, `decimal64` and `decimal128`
- - C99 `complex` and `complex128`
+ - C99 `complex`, `complex80` and `complex128`
 
 All types are prefixed with `numeric_`, but can be used as-is by importing the
 `Numeric` namespace in Vala.
