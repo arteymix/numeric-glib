@@ -1,4 +1,5 @@
-/*
+/* Copyright 2016 Guillaume Poirier-Morency
+ *
  * This file is part of Numeric-GLib.
  *
  * Numeric-GLib is free software: you can redistribute it and/or modify it under

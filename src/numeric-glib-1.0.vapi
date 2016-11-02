@@ -1,8 +1,4 @@
-/* Numerical Type Extensions for Vala
- * Copyright 2016 Guillaume Poirier-Morency <guillaumepoiriermorency@gmail.com>
- *
- * These require GCC extensions described in https://gcc.gnu.org/onlinedocs/gcc/C-Extensions.html
- * and specific compiler argments in order to work properly.
+/* Copyright 2016 Guillaume Poirier-Morency <guillaumepoiriermorency@gmail.com>
  *
  * This file is part of Numeric-GLib.
  *
