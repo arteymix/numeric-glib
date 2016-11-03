@@ -45,13 +45,17 @@ public int main (string[] args)
 		assert (12.5 == float128.parse ("12.5"));
 	});
 
-	Test.add_func ("/transform", () => {
-		var src_value  = Value (typeof (int));
+	Test.add_func ("/transform/identity", () => {
+		var src_value = Value (typeof (int128));
 		var dest_value = Value (typeof (int128));
 
-		dest_value.set_boxed (null);
+		int128 val = 12;
+		src_value.set_boxed (&val);
 
 		src_value.transform (ref dest_value);
+
+		assert (src_value.get_boxed () != dest_value.get_boxed ());
+		assert (12 == *(int128*) dest_value.get_boxed ());
 	});
 
 	return Test.run ();

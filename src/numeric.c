@@ -52,7 +52,43 @@ DEFINE_NUMERIC (complex)
 DEFINE_NUMERIC (complex80)
 DEFINE_NUMERIC (complex128)
 
+// if 'src_value' can be copied to 'dest_value'
+#define DEFINE_COPY(from_type, to_type)                                                       \
+static void                                                                                   \
+from_type##_to_##to_type (const GValue *src_value, GValue *dest_value)                        \
+{                                                                                             \
+    dest_value->data[0].v_pointer = g_malloc (sizeof (to_type));                              \
+    memcpy (dest_value->data[0].v_pointer, src_value->data[0].v_pointer, sizeof (from_type)); \
+}                                                                                             \
+
+DEFINE_COPY (numeric_int128,     numeric_int128)
+DEFINE_COPY (numeric_uint128,    numeric_uint128)
+// DEFINE_COPY (numeric_float16, numeric_float16)
+DEFINE_COPY (numeric_float80,    numeric_float80)
+DEFINE_COPY (numeric_float128,   numeric_float128)
+DEFINE_COPY (numeric_decimal32,  numeric_decimal32)
+DEFINE_COPY (numeric_decimal64,  numeric_decimal64)
+DEFINE_COPY (numeric_decimal128, numeric_decimal128)
+DEFINE_COPY (numeric_complex,    numeric_complex)
+DEFINE_COPY (numeric_complex80,  numeric_complex80)
+DEFINE_COPY (numeric_complex128, numeric_complex128)
+
+static void
+numeric_register_transforms ()
+{
+    g_value_register_transform_func (NUMERIC_TYPE_INT128,     NUMERIC_TYPE_INT128,     numeric_int128_to_numeric_int128);
+    g_value_register_transform_func (NUMERIC_TYPE_UINT128,    NUMERIC_TYPE_UINT128,    numeric_uint128_to_numeric_uint128);
+    g_value_register_transform_func (NUMERIC_TYPE_FLOAT80,    NUMERIC_TYPE_FLOAT80,    numeric_float80_to_numeric_float80);
+    g_value_register_transform_func (NUMERIC_TYPE_FLOAT128,   NUMERIC_TYPE_FLOAT128,   numeric_float128_to_numeric_float128);
+    g_value_register_transform_func (NUMERIC_TYPE_DECIMAL32,  NUMERIC_TYPE_DECIMAL32,  numeric_decimal32_to_numeric_decimal32);
+    g_value_register_transform_func (NUMERIC_TYPE_DECIMAL64,  NUMERIC_TYPE_DECIMAL64,  numeric_decimal64_to_numeric_decimal64);
+    g_value_register_transform_func (NUMERIC_TYPE_DECIMAL128, NUMERIC_TYPE_DECIMAL128, numeric_decimal128_to_numeric_decimal128);
+    g_value_register_transform_func (NUMERIC_TYPE_COMPLEX,    NUMERIC_TYPE_COMPLEX,    numeric_complex_to_numeric_complex);
+    g_value_register_transform_func (NUMERIC_TYPE_COMPLEX80,  NUMERIC_TYPE_COMPLEX80,  numeric_complex80_to_numeric_complex80);
+    g_value_register_transform_func (NUMERIC_TYPE_COMPLEX128, NUMERIC_TYPE_COMPLEX128, numeric_complex128_to_numeric_complex128);
+}
+
 void numeric_init ()
 {
-    // TODO: g_value_register_transform_func ();
+    numeric_register_transforms ();
 }
