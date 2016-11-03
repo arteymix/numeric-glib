@@ -1,5 +1,7 @@
 # Numeric-GLib
 
+[![Build Status](https://travis-ci.org/arteymix/numeric-glib.svg?branch=master)](https://travis-ci.org/arteymix/numeric-glib)
+
 Numeric data types for GLib via GCC extensions
 
 # Features

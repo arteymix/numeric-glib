@@ -1,0 +1,31 @@
+dist: trusty
+
+language: c
+
+cache:
+  - ccache
+  - pip
+
+compiler:
+  - gcc
+  - clang
+
+addons:
+  apt:
+    packages:
+      - libglib2.0-dev
+      - python3-pip
+      - valac
+
+before_install:
+  - pip3 install --user meson
+  - wget https://github.com/ninja-build/ninja/releases/download/v1.6.0/ninja-linux.zip
+  - unzip ninja-linux.zip -d $HOME/.local/bin
+
+before_script:
+  - mkdir build
+  - meson.py . build
+  - ninja -C build
+
+script:
+  - ninja -C build -v test
