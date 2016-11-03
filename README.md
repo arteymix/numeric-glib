@@ -5,7 +5,7 @@ Numeric data types for GLib via GCC extensions
 # Features
 
  - 128 bit integers with `int128` and `uint128`
- - half-precision `float16`, `float80` and quad-precision `float128`
+ - `float80` and quad-precision `float128`
  - decimal with `decimal32`, `decimal64` and `decimal128`
  - C99 `complex`, `complex80` and `complex128`
 

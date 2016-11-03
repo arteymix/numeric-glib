@@ -50,7 +50,6 @@ DEFINE_NUMERIC_PROTOTYPE (complex128, _Complex128)
 
 #define NUMERIC_TYPE_INT128     (numeric_int128_get_type     ())
 #define NUMERIC_TYPE_UINT128    (numeric_uint128_get_type    ())
-// TODO: #define NUMERIC_TYPE_FLOAT16    (numeric_float16_get_type    ())
 #define NUMERIC_TYPE_FLOAT80    (numeric_float80_get_type    ())
 #define NUMERIC_TYPE_FLOAT128   (numeric_float128_get_type   ())
 #define NUMERIC_TYPE_DECIMAL32  (numeric_decimal32_get_type  ())

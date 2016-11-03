@@ -25,9 +25,6 @@ namespace Numeric
 	[IntegerType (rank = 13)]
 	public struct uint128 {}
 
-	[FloatingType (rank = 4)]
-	public struct float16 {}
-
 	[FloatingType (rank = 12)]
 	public struct float80 {}
 

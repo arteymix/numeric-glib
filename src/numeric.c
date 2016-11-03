@@ -42,7 +42,6 @@ numeric_##type##_free (numeric_##type *num)            \
 
 DEFINE_NUMERIC (int128)
 DEFINE_NUMERIC (uint128)
-// DEFINE_NUMERIC (float16)
 DEFINE_NUMERIC (float80)
 DEFINE_NUMERIC (float128)
 DEFINE_NUMERIC (decimal32)
@@ -63,7 +62,6 @@ from_type##_to_##to_type (const GValue *src_value, GValue *dest_value)          
 
 DEFINE_COPY (numeric_int128,     numeric_int128)
 DEFINE_COPY (numeric_uint128,    numeric_uint128)
-// DEFINE_COPY (numeric_float16, numeric_float16)
 DEFINE_COPY (numeric_float80,    numeric_float80)
 DEFINE_COPY (numeric_float128,   numeric_float128)
 DEFINE_COPY (numeric_decimal32,  numeric_decimal32)
