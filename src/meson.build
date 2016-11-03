@@ -1,5 +1,6 @@
 numeric_sources = [
     'numeric.c',
+    'numeric-transform.c',
     'numeric-types.c',
     'numeric-vector.c']
 numeric_glib_lib = library('numeric-glib-1.0', numeric_sources,
