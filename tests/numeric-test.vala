@@ -60,5 +60,51 @@ public int main (string[] args)
 		assert (12 == *(int128*) dest_value.get_boxed ());
 	});
 
+	Test.add_func ("/vector", () => {
+		int32_v16 x = int32_v16 ();
+		int32_v16 y = int32_v16 ();
+
+		x[0] = 1;
+		x[1] = 2;
+		x[2] = 3;
+		x[3] = 4;
+
+		assert (1 == x[0]);
+		assert (2 == x[1]);
+		assert (3 == x[2]);
+		assert (4 == x[3]);
+
+		y[0] = 1;
+		y[1] = 2;
+		y[2] = 3;
+		y[3] = 4;
+
+		var z = int32_v16.add (x, y);
+
+		assert (2 == z[0]);
+		assert (4 == z[1]);
+		assert (6 == z[2]);
+		assert (8 == z[3]);
+	});
+
+	Test.add_func ("/vector/boxed", () => {
+		int32_v16 x = int32_v16 ();
+
+		x[0] = 1;
+		x[1] = 2;
+		x[2] = 3;
+		x[3] = 4;
+
+		var val = Value (typeof (int32_v16));
+		val.set_boxed (&x);
+
+		int32_v16 y = *(int32_v16*) val.get_boxed ();
+
+		assert (1 == y[0]);
+		assert (2 == y[1]);
+		assert (3 == y[2]);
+		assert (4 == y[3]);
+	});
+
 	return Test.run ();
 }
