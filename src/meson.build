@@ -1,4 +1,4 @@
-numeric_glib_lib = library('numeric-glib-1.0', 'numeric.c',
+numeric_glib_lib = library('numeric-glib-1.0', 'numeric.c', 'numeric-vector.c',
                            dependencies: [glib, gobject],
                            link_args: '-Wl,-init=numeric_init',
                            install: true)
