@@ -87,7 +87,6 @@ namespace Numeric
 	[FloatingType (rank = 12)]
 	public struct complex128 {}
 
-	[CCode (cheader_filename = "numeric-vector.h")]
 	public struct int32_v16
 	{
 		public static int32_v16 add (int32_v16 x, int32_v16 y);

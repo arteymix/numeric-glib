@@ -16,12 +16,14 @@
  * along with Numeric-GLib.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <glib-object.h>
-
-#include "numeric.h"
+#if !defined (NUMERIC_INSIDE) && !defined (NUMERIC_COMPILATION)
+#error "Only <numeric.h> can be included directly."
+#endif
 
 #ifndef NUMERIC_VECTOR_H
 #define NUMERIC_VECTOR_H
+
+#include <glib-object.h>
 
 G_BEGIN_DECLS
 
