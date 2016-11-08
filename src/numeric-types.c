@@ -16,7 +16,7 @@
  * along with Numeric-GLib.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "numeric.h"
+#include "numeric-types.h"
 
 #include <string.h>
 
