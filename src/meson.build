@@ -8,7 +8,7 @@ numeric_glib = declare_dependency(link_with: numeric_glib_lib,
                                   include_directories: include_directories('.'),
                                   sources: 'numeric-glib-1.0.vapi')
 
-install_headers('numeric.h', subdir: 'numeric-glib-1.0')
+install_headers(['numeric.h', 'numeric-types.h', 'numeric-vector.h'], subdir: 'numeric-glib-1.0')
 install_data('numeric-glib-1.0.vapi', install_dir: 'share/vala/vapi')
 
 pkgconfig = import('pkgconfig')
