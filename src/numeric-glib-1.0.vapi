@@ -36,6 +36,17 @@ namespace Numeric
 		public float to_float ();
 	}
 
+	[FloatingType (rank = 11)]
+	public struct double_le
+	{
+		public double to_double ();
+	}
+
+	[FloatingType (rank = 11)]
+	public struct double_be {
+		public double to_double ();
+	}
+
 	[FloatingType (rank = 12)]
 	public struct float80 {}
 

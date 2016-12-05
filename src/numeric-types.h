@@ -43,6 +43,8 @@ DEFINE_NUMERIC_PROTOTYPE (int128,     __int128)
 DEFINE_NUMERIC_PROTOTYPE (uint128,    unsigned __int128)
 DEFINE_NUMERIC_PROTOTYPE (float_le,   float)
 DEFINE_NUMERIC_PROTOTYPE (float_be,   float)
+DEFINE_NUMERIC_PROTOTYPE (double_le,  double)
+DEFINE_NUMERIC_PROTOTYPE (double_be,  double)
 DEFINE_NUMERIC_PROTOTYPE (float80,    _Float80)
 DEFINE_NUMERIC_PROTOTYPE (float128,   _Float128)
 DEFINE_NUMERIC_PROTOTYPE (decimal32,  _Decimal32)
@@ -56,6 +58,8 @@ DEFINE_NUMERIC_PROTOTYPE (complex128, _Complex128)
 #define NUMERIC_TYPE_UINT128    (numeric_uint128_get_type    ())
 #define NUMERIC_TYPE_FLOAT_LE   (numeric_float_le_get_type   ())
 #define NUMERIC_TYPE_FLOAT_BE   (numeric_float_be_get_type   ())
+#define NUMERIC_TYPE_DOUBLE_LE   (numeric_double_le_get_type   ())
+#define NUMERIC_TYPE_DOUBLE_BE   (numeric_double_be_get_type   ())
 #define NUMERIC_TYPE_FLOAT80    (numeric_float80_get_type    ())
 #define NUMERIC_TYPE_FLOAT128   (numeric_float128_get_type   ())
 #define NUMERIC_TYPE_DECIMAL32  (numeric_decimal32_get_type  ())
@@ -70,6 +74,12 @@ numeric_float_le_to_float (numeric_float_le num);
 
 gfloat
 numeric_float_be_to_float (numeric_float_be num);
+
+gdouble
+numeric_double_le_to_double (numeric_double_le num);
+
+gdouble
+numeric_double_be_to_double (numeric_double_be num);
 
 G_END_DECLS
 
