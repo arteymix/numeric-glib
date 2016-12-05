@@ -26,10 +26,15 @@ namespace Numeric
 	public struct uint128 {}
 
 	[FloatingType (rank = 10)]
-	public struct float_le {}
+	public struct float_le
+	{
+		public float to_float ();
+	}
 
 	[FloatingType (rank = 10)]
-	public struct float_be {}
+	public struct float_be {
+		public float to_float ();
+	}
 
 	[FloatingType (rank = 12)]
 	public struct float80 {}

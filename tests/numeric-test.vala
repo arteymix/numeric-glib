@@ -39,10 +39,15 @@ public int main (string[] args)
 
 	Test.add_func ("/float_be", () => {
 		var a = Value (typeof (float));
-		var b = Value (typeof (float_be));
 		a.set_float (5.0f);
+
+		var b = Value (typeof (float_be));
 		assert (a.transform (ref b));
 		assert (*(float*) b.get_boxed () != a.get_float ());
+		var b_val = *(float_be*) b.get_boxed ();
+		assert (5.0f != b_val);
+		assert (5.0f == b_val.to_float ());
+
 		var c = Value (typeof (float));
 		assert (b.transform (ref c));
 		message ("%f", c.get_float ());

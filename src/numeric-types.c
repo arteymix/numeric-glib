@@ -53,6 +53,32 @@ DEFINE_NUMERIC (complex)
 DEFINE_NUMERIC (complex80)
 DEFINE_NUMERIC (complex128)
 
+gfloat
+numeric_float_le_to_float (numeric_float_le num)
+{
+    union {
+        gint32           v_int32;
+        gfloat           v_float;
+        numeric_float_le v_float_le;
+    } data;
+    data.v_float_le = num;
+    data.v_int32 = GINT32_FROM_LE (data.v_int32);
+    return data.v_float;
+}
+
+gfloat
+numeric_float_be_to_float (numeric_float_be num)
+{
+    union {
+        gint32           v_int32;
+        gfloat           v_float;
+        numeric_float_le v_float_be;
+    } data;
+    data.v_float_be = num;
+    data.v_int32 = GINT32_FROM_BE (data.v_int32);
+    return data.v_float;
+}
+
 // if 'src_value' can be copied to 'dest_value'
 #define DEFINE_COPY(from_type, to_type)                                                       \
 static void                                                                                   \

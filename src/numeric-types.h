@@ -65,6 +65,12 @@ DEFINE_NUMERIC_PROTOTYPE (complex128, _Complex128)
 #define NUMERIC_TYPE_COMPLEX80  (numeric_complex80_get_type  ())
 #define NUMERIC_TYPE_COMPLEX128 (numeric_complex128_get_type ())
 
+gfloat
+numeric_float_le_to_float (numeric_float_le num);
+
+gfloat
+numeric_float_be_to_float (numeric_float_be num);
+
 G_END_DECLS
 
 #endif
