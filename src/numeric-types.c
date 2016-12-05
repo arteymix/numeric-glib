@@ -42,6 +42,8 @@ numeric_##type##_free (numeric_##type *num)            \
 
 DEFINE_NUMERIC (int128)
 DEFINE_NUMERIC (uint128)
+DEFINE_NUMERIC (float_le)
+DEFINE_NUMERIC (float_be)
 DEFINE_NUMERIC (float80)
 DEFINE_NUMERIC (float128)
 DEFINE_NUMERIC (decimal32)
@@ -72,10 +74,40 @@ DEFINE_COPY (numeric_complex80,  numeric_complex80)
 DEFINE_COPY (numeric_complex128, numeric_complex128)
 
 static void
+gfloat_to_numeric_float_le (const GValue* src_value, GValue* dest_value)
+{
+    dest_value->data[0].v_pointer            = g_malloc (sizeof (numeric_float_le));
+    *(gint32*) dest_value->data[0].v_pointer = GINT32_TO_LE (src_value->data[0].v_int);
+}
+
+static void
+gfloat_to_numeric_float_be (const GValue* src_value, GValue* dest_value)
+{
+    dest_value->data[0].v_pointer            = g_malloc (sizeof (numeric_float_be));
+    *(gint32*) dest_value->data[0].v_pointer = GINT32_TO_BE (src_value->data[0].v_int);
+}
+
+static void
+numeric_float_le_to_gfloat (const GValue* src_value, GValue* dest_value)
+{
+    dest_value->data[0].v_int = GINT32_FROM_LE (*(guint32*) src_value->data[0].v_pointer);
+}
+
+static void
+numeric_float_be_to_gfloat (const GValue* src_value, GValue* dest_value)
+{
+    dest_value->data[0].v_int = GINT32_FROM_BE (*(guint32*) src_value->data[0].v_pointer);
+}
+
+static void
 numeric_register_transforms ()
 {
+    g_value_register_transform_func (G_TYPE_FLOAT,            NUMERIC_TYPE_FLOAT_LE,   gfloat_to_numeric_float_le);
+    g_value_register_transform_func (G_TYPE_FLOAT,            NUMERIC_TYPE_FLOAT_BE,   gfloat_to_numeric_float_be);
     g_value_register_transform_func (NUMERIC_TYPE_INT128,     NUMERIC_TYPE_INT128,     numeric_int128_to_numeric_int128);
     g_value_register_transform_func (NUMERIC_TYPE_UINT128,    NUMERIC_TYPE_UINT128,    numeric_uint128_to_numeric_uint128);
+    g_value_register_transform_func (NUMERIC_TYPE_FLOAT_LE,   G_TYPE_FLOAT,            numeric_float_le_to_gfloat);
+    g_value_register_transform_func (NUMERIC_TYPE_FLOAT_BE,   G_TYPE_FLOAT,            numeric_float_be_to_gfloat);
     g_value_register_transform_func (NUMERIC_TYPE_FLOAT80,    NUMERIC_TYPE_FLOAT80,    numeric_float80_to_numeric_float80);
     g_value_register_transform_func (NUMERIC_TYPE_FLOAT128,   NUMERIC_TYPE_FLOAT128,   numeric_float128_to_numeric_float128);
     g_value_register_transform_func (NUMERIC_TYPE_DECIMAL32,  NUMERIC_TYPE_DECIMAL32,  numeric_decimal32_to_numeric_decimal32);

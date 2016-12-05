@@ -9,6 +9,7 @@ Numeric data types for GLib via GCC extensions
  - decimal with `decimal32`, `decimal64` and `decimal128`
  - C99 `complex`, `complex80` and `complex128`
  - vectorized operations on supported types
+ - little and big endian variants
 
 All types are prefixed with `numeric_`, but can be used as-is by importing the
 `Numeric` namespace in Vala.

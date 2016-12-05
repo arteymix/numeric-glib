@@ -37,6 +37,18 @@ public int main (string[] args)
 		assert (sizeof (complex) == 16);
 	});
 
+	Test.add_func ("/float_be", () => {
+		var a = Value (typeof (float));
+		var b = Value (typeof (float_be));
+		a.set_float (5.0f);
+		assert (a.transform (ref b));
+		assert (*(float*) b.get_boxed () != a.get_float ());
+		var c = Value (typeof (float));
+		assert (b.transform (ref c));
+		message ("%f", c.get_float ());
+		assert (a.get_float () == c.get_float ());
+	});
+
 	Test.add_func ("/float128", () => {
 		float128 f = 12.5;
 		float128 g = 13.5;
