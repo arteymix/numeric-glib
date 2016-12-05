@@ -13,6 +13,7 @@ install_data('numeric-glib-1.0.vapi', install_dir: 'share/vala/vapi')
 
 pkgconfig = import('pkgconfig')
 pkgconfig.generate(name: 'Numeric-GLib',
+                   version: '0.0.0',
                    description: 'Numeric data types for GLib via GCC extensions',
                    requires: ['glib-2.0', 'gobject-2.0'],
                    libraries: numeric_glib_lib,
