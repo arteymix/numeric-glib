@@ -1,7 +1,10 @@
-numeric_glib_lib = library('numeric-glib-1.0', 'numeric-types.c', 'numeric-vector.c',
+numeric_sources = [
+    'numeric.c',
+    'numeric-types.c',
+    'numeric-vector.c']
+numeric_glib_lib = library('numeric-glib-1.0', numeric_sources,
                            dependencies: [glib, gobject],
                            c_args: '-DNUMERIC_COMPILATION',
-                           link_args: '-Wl,-init=numeric_init',
                            install: true)
 
 numeric_glib = declare_dependency(link_with: numeric_glib_lib,
