@@ -41,10 +41,6 @@ typedef _Complex float __attribute__((mode(XC))) _Complex80;
 
 DEFINE_NUMERIC_PROTOTYPE (int128,     __int128)
 DEFINE_NUMERIC_PROTOTYPE (uint128,    unsigned __int128)
-DEFINE_NUMERIC_PROTOTYPE (float_le,   float)
-DEFINE_NUMERIC_PROTOTYPE (float_be,   float)
-DEFINE_NUMERIC_PROTOTYPE (double_le,  double)
-DEFINE_NUMERIC_PROTOTYPE (double_be,  double)
 DEFINE_NUMERIC_PROTOTYPE (float80,    _Float80)
 DEFINE_NUMERIC_PROTOTYPE (float128,   _Float128)
 DEFINE_NUMERIC_PROTOTYPE (decimal32,  _Decimal32)
@@ -56,10 +52,6 @@ DEFINE_NUMERIC_PROTOTYPE (complex128, _Complex128)
 
 #define NUMERIC_TYPE_INT128     (numeric_int128_get_type     ())
 #define NUMERIC_TYPE_UINT128    (numeric_uint128_get_type    ())
-#define NUMERIC_TYPE_FLOAT_LE   (numeric_float_le_get_type   ())
-#define NUMERIC_TYPE_FLOAT_BE   (numeric_float_be_get_type   ())
-#define NUMERIC_TYPE_DOUBLE_LE   (numeric_double_le_get_type   ())
-#define NUMERIC_TYPE_DOUBLE_BE   (numeric_double_be_get_type   ())
 #define NUMERIC_TYPE_FLOAT80    (numeric_float80_get_type    ())
 #define NUMERIC_TYPE_FLOAT128   (numeric_float128_get_type   ())
 #define NUMERIC_TYPE_DECIMAL32  (numeric_decimal32_get_type  ())
@@ -69,17 +61,23 @@ DEFINE_NUMERIC_PROTOTYPE (complex128, _Complex128)
 #define NUMERIC_TYPE_COMPLEX80  (numeric_complex80_get_type  ())
 #define NUMERIC_TYPE_COMPLEX128 (numeric_complex128_get_type ())
 
-gfloat
-numeric_float_le_to_float (numeric_float_le num);
+#define DEFINE_NUMERIC_PROTOTYPE_WITH_BITSWAP(type,ctype,gtype) \
+DEFINE_NUMERIC_PROTOTYPE (type,       ctype)                    \
+numeric_##type                                                  \
+numeric_##type##_from_##gtype (gtype num);                      \
+                                                                \
+gtype                                                           \
+numeric_##type##_to_##gtype (numeric_##type num);
 
-gfloat
-numeric_float_be_to_float (numeric_float_be num);
+DEFINE_NUMERIC_PROTOTYPE_WITH_BITSWAP(float_le,  gfloat,  float)
+DEFINE_NUMERIC_PROTOTYPE_WITH_BITSWAP(float_be,  gfloat,  float)
+DEFINE_NUMERIC_PROTOTYPE_WITH_BITSWAP(double_le, gdouble, double)
+DEFINE_NUMERIC_PROTOTYPE_WITH_BITSWAP(double_be, gdouble, double)
 
-gdouble
-numeric_double_le_to_double (numeric_double_le num);
-
-gdouble
-numeric_double_be_to_double (numeric_double_be num);
+#define NUMERIC_TYPE_FLOAT_LE   (numeric_float_le_get_type   ())
+#define NUMERIC_TYPE_FLOAT_BE   (numeric_float_be_get_type   ())
+#define NUMERIC_TYPE_DOUBLE_LE  (numeric_double_le_get_type  ())
+#define NUMERIC_TYPE_DOUBLE_BE  (numeric_double_be_get_type  ())
 
 G_END_DECLS
 

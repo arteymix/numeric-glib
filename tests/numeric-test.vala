@@ -52,6 +52,10 @@ public int main (string[] args)
 		assert (b.transform (ref c));
 		message ("%f", c.get_float ());
 		assert (a.get_float () == c.get_float ());
+
+		var d = float_be.from_float (5.0f);
+		assert (5.0f != d);
+		assert (5.0f == d.to_float ());
 	});
 
 	Test.add_func ("/float128", () => {

@@ -28,22 +28,27 @@ namespace Numeric
 	[FloatingType (rank = 10)]
 	public struct float_le
 	{
+		public static float_le from_float (float num);
 		public float to_float ();
 	}
 
 	[FloatingType (rank = 10)]
-	public struct float_be {
+	public struct float_be
+	{
+		public static float_be from_float (float num);
 		public float to_float ();
 	}
 
 	[FloatingType (rank = 11)]
 	public struct double_le
 	{
+		public static double_le from_double (double num);
 		public double to_double ();
 	}
 
 	[FloatingType (rank = 11)]
 	public struct double_be {
+		public static double_be from_double (double num);
 		public double to_double ();
 	}
 

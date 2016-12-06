@@ -42,10 +42,6 @@ numeric_##type##_free (numeric_##type *num)            \
 
 DEFINE_NUMERIC (int128)
 DEFINE_NUMERIC (uint128)
-DEFINE_NUMERIC (float_le)
-DEFINE_NUMERIC (float_be)
-DEFINE_NUMERIC (double_le)
-DEFINE_NUMERIC (double_be)
 DEFINE_NUMERIC (float80)
 DEFINE_NUMERIC (float128)
 DEFINE_NUMERIC (decimal32)
@@ -55,57 +51,38 @@ DEFINE_NUMERIC (complex)
 DEFINE_NUMERIC (complex80)
 DEFINE_NUMERIC (complex128)
 
-gfloat
-numeric_float_le_to_float (numeric_float_le num)
-{
-    union {
-        gint32           v_int32;
-        gfloat           v_float;
-        numeric_float_le v_float_le;
-    } data;
-    data.v_float_le = num;
-    data.v_int32 = GINT32_FROM_LE (data.v_int32);
-    return data.v_float;
+#define DEFINE_NUMERIC_WITH_BYTESWAP(type,gtype,order,bits)          \
+DEFINE_NUMERIC (type)                                                \
+numeric_##type                                                       \
+numeric_##type##_from_float (gtype num)                              \
+{                                                                    \
+    union {                                                          \
+        gint##bits     v_int##bits;                                  \
+        numeric_##type v_##type;                                     \
+        gtype          v_##gtype;                                    \
+    } data;                                                          \
+    data.v_##gtype   = num;                                          \
+    data.v_int##bits = GINT##bits##_TO_##order (data.v_int##bits);   \
+    return data.v_##type;                                            \
+}                                                                    \
+                                                                     \
+gtype                                                                \
+numeric_##type##_to_##gtype (numeric_##type num)                     \
+{                                                                    \
+    union {                                                          \
+        gint##bits v_int##bits;                                      \
+        numeric_##type       v_##type;                               \
+        gtype      v_##gtype;                                        \
+    } data;                                                          \
+    data.v_##type    = num;                                          \
+    data.v_int##bits = GINT##bits##_FROM_##order (data.v_int##bits); \
+    return data.v_##gtype;                                           \
 }
 
-gfloat
-numeric_float_be_to_float (numeric_float_be num)
-{
-    union {
-        gint32           v_int32;
-        gfloat           v_float;
-        numeric_float_le v_float_be;
-    } data;
-    data.v_float_be = num;
-    data.v_int32 = GINT32_FROM_BE (data.v_int32);
-    return data.v_float;
-}
-
-gdouble
-numeric_double_le_to_double (numeric_double_le num)
-{
-    union {
-        gint64            v_int64;
-        gdouble           v_double;
-        numeric_double_le v_double_le;
-    } data;
-    data.v_double_le = num;
-    data.v_int64 = GINT64_FROM_LE (data.v_int64);
-    return data.v_double;
-}
-
-gdouble
-numeric_double_be_to_double (numeric_double_be num)
-{
-    union {
-        gint64            v_int64;
-        gdouble           v_double;
-        numeric_double_le v_double_be;
-    } data;
-    data.v_double_be = num;
-    data.v_int64 = GINT64_FROM_BE (data.v_int64);
-    return data.v_double;
-}
+DEFINE_NUMERIC_WITH_BYTESWAP (float_le,  float,  LE, 32)
+DEFINE_NUMERIC_WITH_BYTESWAP (float_be,  float,  BE, 32)
+DEFINE_NUMERIC_WITH_BYTESWAP (double_le, double, LE, 64)
+DEFINE_NUMERIC_WITH_BYTESWAP (double_be, double, BE, 64)
 
 // if 'src_value' can be copied to 'dest_value'
 #define DEFINE_COPY(from_type, to_type)                                                       \
