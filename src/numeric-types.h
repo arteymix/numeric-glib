@@ -119,9 +119,6 @@ DEFINE_NUMERIC_PROTOTYPE_WITH_BITSWAP (double_be, gdouble, double)
 #define NUMERIC_TYPE_DOUBLE_LE (numeric_double_le_get_type ())
 #define NUMERIC_TYPE_DOUBLE_BE (numeric_double_be_get_type ())
 
-void
-_numeric_transforms_init (void);
-
 G_END_DECLS
 
 #endif

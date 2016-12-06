@@ -149,8 +149,9 @@ DEFINE_BYTESWAP_FROM (numeric_float_be,  gfloat,  BE, 32)
 DEFINE_BYTESWAP_FROM (numeric_double_le, gdouble, LE, 64)
 DEFINE_BYTESWAP_FROM (numeric_double_be, gdouble, BE, 32)
 
-void
-_numeric_transforms_init (void)
+__attribute__ ((constructor))
+static void
+numeric_transforms_init (void)
 {
     g_value_register_transform_func (G_TYPE_FLOAT,            NUMERIC_TYPE_FLOAT_LE,   gfloat_to_numeric_float_le);
     g_value_register_transform_func (G_TYPE_FLOAT,            NUMERIC_TYPE_FLOAT_BE,   gfloat_to_numeric_float_be);

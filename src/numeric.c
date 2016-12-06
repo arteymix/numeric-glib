@@ -17,10 +17,3 @@
  */
 
 #include "numeric.h"
-
-static void numeric_init () __attribute__ ((constructor));
-
-void numeric_init (void)
-{
-    _numeric_transforms_init ();
-}
