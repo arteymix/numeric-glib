@@ -64,20 +64,60 @@ DEFINE_NUMERIC_PROTOTYPE (complex128, _Complex128)
 #define DEFINE_NUMERIC_PROTOTYPE_WITH_BITSWAP(type,ctype,gtype) \
 DEFINE_NUMERIC_PROTOTYPE (type,       ctype)                    \
 numeric_##type                                                  \
-numeric_##type##_from_##gtype (gtype num);                      \
+numeric_##type##_from_##gtype (g##gtype num);                   \
                                                                 \
-gtype                                                           \
+g##gtype                                                        \
 numeric_##type##_to_##gtype (numeric_##type num);
 
-DEFINE_NUMERIC_PROTOTYPE_WITH_BITSWAP(float_le,  gfloat,  float)
-DEFINE_NUMERIC_PROTOTYPE_WITH_BITSWAP(float_be,  gfloat,  float)
-DEFINE_NUMERIC_PROTOTYPE_WITH_BITSWAP(double_le, gdouble, double)
-DEFINE_NUMERIC_PROTOTYPE_WITH_BITSWAP(double_be, gdouble, double)
+DEFINE_NUMERIC_PROTOTYPE_WITH_BITSWAP (int_le,    gint,    int)
+DEFINE_NUMERIC_PROTOTYPE_WITH_BITSWAP (int_be,    gint,    int)
+DEFINE_NUMERIC_PROTOTYPE_WITH_BITSWAP (uint_le,   guint,   uint)
+DEFINE_NUMERIC_PROTOTYPE_WITH_BITSWAP (uint_be,   guint,   uint)
+DEFINE_NUMERIC_PROTOTYPE_WITH_BITSWAP (long_le,   glong,   long)
+DEFINE_NUMERIC_PROTOTYPE_WITH_BITSWAP (long_be,   glong,   long)
+DEFINE_NUMERIC_PROTOTYPE_WITH_BITSWAP (ulong_le,  gulong,  ulong)
+DEFINE_NUMERIC_PROTOTYPE_WITH_BITSWAP (ulong_be,  gulong,  ulong)
+DEFINE_NUMERIC_PROTOTYPE_WITH_BITSWAP (int16_le,  gint16,  int16)
+DEFINE_NUMERIC_PROTOTYPE_WITH_BITSWAP (int16_be,  gint16,  int16)
+DEFINE_NUMERIC_PROTOTYPE_WITH_BITSWAP (uint16_le, guint16, uint16)
+DEFINE_NUMERIC_PROTOTYPE_WITH_BITSWAP (uint16_be, guint16, uint16)
+DEFINE_NUMERIC_PROTOTYPE_WITH_BITSWAP (int32_le,  gint32,  int32)
+DEFINE_NUMERIC_PROTOTYPE_WITH_BITSWAP (int32_be,  gint32,  int32)
+DEFINE_NUMERIC_PROTOTYPE_WITH_BITSWAP (uint32_le, guint32, uint32)
+DEFINE_NUMERIC_PROTOTYPE_WITH_BITSWAP (uint32_be, guint32, uint32)
+DEFINE_NUMERIC_PROTOTYPE_WITH_BITSWAP (int64_le,  gint64,  int64)
+DEFINE_NUMERIC_PROTOTYPE_WITH_BITSWAP (int64_be,  gint64,  int64)
+DEFINE_NUMERIC_PROTOTYPE_WITH_BITSWAP (uint64_le, guint64, uint64)
+DEFINE_NUMERIC_PROTOTYPE_WITH_BITSWAP (uint64_be, guint64, uint64)
+DEFINE_NUMERIC_PROTOTYPE_WITH_BITSWAP (float_le,  gfloat,  float)
+DEFINE_NUMERIC_PROTOTYPE_WITH_BITSWAP (float_be,  gfloat,  float)
+DEFINE_NUMERIC_PROTOTYPE_WITH_BITSWAP (double_le, gdouble, double)
+DEFINE_NUMERIC_PROTOTYPE_WITH_BITSWAP (double_be, gdouble, double)
 
-#define NUMERIC_TYPE_FLOAT_LE   (numeric_float_le_get_type   ())
-#define NUMERIC_TYPE_FLOAT_BE   (numeric_float_be_get_type   ())
-#define NUMERIC_TYPE_DOUBLE_LE  (numeric_double_le_get_type  ())
-#define NUMERIC_TYPE_DOUBLE_BE  (numeric_double_be_get_type  ())
+#define NUMERIC_TYPE_INT_LE    (numeric_int_le_get_type    ())
+#define NUMERIC_TYPE_INT_BE    (numeric_int_be_get_type    ())
+#define NUMERIC_TYPE_UINT_LE   (numeric_uint_le_get_type   ())
+#define NUMERIC_TYPE_UINT_BE   (numeric_uint_be_get_type   ())
+#define NUMERIC_TYPE_LONG_LE   (numeric_long_le_get_type   ())
+#define NUMERIC_TYPE_LONG_BE   (numeric_long_be_get_type   ())
+#define NUMERIC_TYPE_ULONG_LE  (numeric_ulong_le_get_type  ())
+#define NUMERIC_TYPE_ULONG_BE  (numeric_ulong_be_get_type  ())
+#define NUMERIC_TYPE_INT16_LE  (numeric_int16_le_get_type  ())
+#define NUMERIC_TYPE_INT16_BE  (numeric_int16_be_get_type  ())
+#define NUMERIC_TYPE_UINT16_LE (numeric_uint16_le_get_type ())
+#define NUMERIC_TYPE_UINT16_BE (numeric_uint16_be_get_type ())
+#define NUMERIC_TYPE_INT32_LE  (numeric_int32_le_get_type  ())
+#define NUMERIC_TYPE_INT32_BE  (numeric_int32_be_get_type  ())
+#define NUMERIC_TYPE_UINT32_LE (numeric_uint32_le_get_type ())
+#define NUMERIC_TYPE_UINT32_BE (numeric_uint32_be_get_type ())
+#define NUMERIC_TYPE_INT64_LE  (numeric_int64_le_get_type  ())
+#define NUMERIC_TYPE_INT64_BE  (numeric_int64_be_get_type  ())
+#define NUMERIC_TYPE_UINT64_LE (numeric_uint64_le_get_type ())
+#define NUMERIC_TYPE_UINT64_BE (numeric_uint64_be_get_type ())
+#define NUMERIC_TYPE_FLOAT_LE  (numeric_float_le_get_type  ())
+#define NUMERIC_TYPE_FLOAT_BE  (numeric_float_be_get_type  ())
+#define NUMERIC_TYPE_DOUBLE_LE (numeric_double_le_get_type ())
+#define NUMERIC_TYPE_DOUBLE_BE (numeric_double_be_get_type ())
 
 G_END_DECLS
 
