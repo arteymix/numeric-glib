@@ -34,15 +34,13 @@ numeric_##type *numeric_##type##_copy     (numeric_##type *num); \
 void            numeric_##type##_free     (numeric_##type *num);
 
 // http://gcc.gnu.org/onlinedocs/gcc/Floating-Types.html#Floating-Types
-typedef __float80                                _Float80;
-typedef __float128                               _Float128;
 typedef _Complex float __attribute__((mode(TC))) _Complex128;
 typedef _Complex float __attribute__((mode(XC))) _Complex80;
 
 DEFINE_NUMERIC_PROTOTYPE (int128,     __int128)
 DEFINE_NUMERIC_PROTOTYPE (uint128,    unsigned __int128)
-DEFINE_NUMERIC_PROTOTYPE (float80,    _Float80)
-DEFINE_NUMERIC_PROTOTYPE (float128,   _Float128)
+DEFINE_NUMERIC_PROTOTYPE (float80,    __float80)
+DEFINE_NUMERIC_PROTOTYPE (float128,   __float128)
 DEFINE_NUMERIC_PROTOTYPE (decimal32,  _Decimal32)
 DEFINE_NUMERIC_PROTOTYPE (decimal64,  _Decimal64)
 DEFINE_NUMERIC_PROTOTYPE (decimal128, _Decimal128)
