@@ -4,7 +4,7 @@ numeric_sources = [
     'numeric-types.c',
     'numeric-vector.c']
 numeric_glib_lib = library('numeric-glib-1.0', numeric_sources,
-                           dependencies: [glib, gobject],
+                           dependencies: [glib, gobject, dfp],
                            c_args: '-DNUMERIC_COMPILATION',
                            install: true)
 

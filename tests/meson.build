@@ -1,2 +1,3 @@
+posix = meson.get_compiler('vala').find_library('posix')
 test('numeric', executable('numeric-test', 'numeric-test.vala',
-                           dependencies: [glib, gobject, numeric_glib, quadmath]))
+                           dependencies: [posix, glib, gobject, numeric_glib, quadmath, dfp]))

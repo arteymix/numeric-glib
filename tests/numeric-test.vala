@@ -127,5 +127,20 @@ public int main (string[] args)
 		assert (4 == y[3]);
 	});
 
+	Test.add_func ("/decimal", () => {
+		var a = decimal32.parse ("0.1");
+		var b = decimal32.parse ("0.1");
+		var c = decimal32.parse ("0.1");
+		var d = decimal32.parse ("-0.3");
+
+		var expected = decimal128.parse ("0.0");
+
+		print (a.to_string ());
+		assert (a.to_string () == "0.1");
+		assert (c.to_string () == "-0.3");
+
+		assert (a + b + c + d  ==  expected);
+	});
+
 	return Test.run ();
 }
