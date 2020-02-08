@@ -19,9 +19,12 @@
 #include <stdlib.h>
 #include <stdio.h>
 
+#include <glib.h>
+
+#if HAVE_LIBDFP
 #include <dfp/stdlib.h>
 #include <dfp/math.h>
-#include <glib.h>
+#endif
 
 #include <numeric.h>
 
@@ -30,16 +33,22 @@ test_decimal128 (void)
 {
     numeric_decimal128 a;
 
+#if HAVE_LIBDFP
     a = strtod128 ("0.1", NULL);
+#else
+    a = 0.1DL;
+#endif
 
     g_assert (a == 0.1DL);
     g_assert_cmpfloat (a + a, ==, 0.2DL);
-    g_assert_cmpfloat (fabsd128 (a), ==, 0.1DL);
 
+#if HAVE_LIBDFP
     char buffer[128];
     snprintf (buffer, sizeof buffer, "%DDf", a);
-
     g_assert_cmpstr (buffer, ==, "0.100000");
+
+    g_assert_cmpfloat (fabsd128 (a), ==, 0.1DL);
+#endif
 }
 
 int

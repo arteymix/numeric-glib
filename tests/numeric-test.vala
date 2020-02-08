@@ -126,6 +126,7 @@ public int main (string[] args)
 		assert (4 == y[3]);
 	});
 
+#if HAVE_LIBDFP
 	Test.add_func ("/decimal", () => {
 		var a = decimal128.parse ("0.1");
 		var b = decimal128.parse ("0.1");
@@ -139,6 +140,7 @@ public int main (string[] args)
 		assert (a.to_string () == "0.100000");
 		assert (expected.to_string () == "0.000000");
 	});
+#endif
 
 	return Test.run ();
 }
