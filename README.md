@@ -31,7 +31,9 @@ project('Foo')
 
 glib = dependency('glib-2.0')
 gobject = dependency('gobject-2.0')
-numeric_glib = dependency('numeric-glib-1.0', fallback: ['numeric-glib', 'numeric_glib'])
+numeric_glib = dependency('numeric-glib-1.0', fallback: ['numeric-glib', 'numeric_glib_dep'])
+numeric_glib_vala = dependency('numeric-glib-1.0', fallback: ['numeric-glib', 'numeric_glib_vala_dep'])
 
-executable('foo', dependencies: [glib, gobject, numeric_glib])
+executable('foo', 'foo.c', dependencies: [glib, gobject, numeric_glib])
+executable('foo', 'foo.vala', dependencies: [glib, gobject, numeric_glib_vala])
 ```

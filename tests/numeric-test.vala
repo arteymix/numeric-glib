@@ -50,7 +50,6 @@ public int main (string[] args)
 
 		var c = Value (typeof (float));
 		assert (b.transform (ref c));
-		message ("%f", c.get_float ());
 		assert (a.get_float () == c.get_float ());
 
 		var d = float_be.from_float (5.0f);
@@ -136,6 +135,9 @@ public int main (string[] args)
 		var expected = decimal128.parse ("0.0");
 
 		assert (a + b + c + d  ==  expected);
+
+		assert (a.to_string () == "0.100000");
+		assert (expected.to_string () == "0.000000");
 	});
 
 	return Test.run ();

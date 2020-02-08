@@ -8,9 +8,11 @@ numeric_glib_lib = library('numeric-glib-1.0', numeric_sources,
                            c_args: '-DNUMERIC_COMPILATION',
                            install: true)
 
-numeric_glib = declare_dependency(link_with: numeric_glib_lib,
-                                  include_directories: include_directories('.'),
-                                  sources: 'numeric-glib-1.0.vapi')
+numeric_glib_dep = declare_dependency(link_with: numeric_glib_lib,
+                                    include_directories: include_directories('.'))
+
+numeric_glib_vala_dep = declare_dependency(dependencies: numeric_glib_dep,
+                                           sources: 'numeric-glib-1.0.vapi')
 
 install_headers(['numeric.h', 'numeric-types.h', 'numeric-vector.h'], subdir: 'numeric-glib-1.0')
 install_data('numeric-glib-1.0.vapi', install_dir: 'share/vala/vapi')

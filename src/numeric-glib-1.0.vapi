@@ -92,7 +92,6 @@ namespace Numeric
 				_quadmath_snprintf (buffer, format, this);
 			}
 			return (string) buffer;
-
 		}
 	}
 
@@ -123,9 +122,20 @@ namespace Numeric
 	{
 		[CCode (cname = "strtod128", cheader_filename="dfp/stdlib.h")]
 		public static decimal128 parse (string s, out char sp = null);
+
+		[CCode (cname = "snprintf", cheader_filename = "stdio.h")]
+		private static int _snprintf (char[] s, string format, ...);
+
 		public string to_string ()
 		{
-			return "%DDf".printf (this);
+			var buffer = new char[128];
+			var format = "%DDf";
+			var n = _snprintf (buffer, format, this);
+			if (n >= buffer.length) {
+				buffer = new char[n + 1];
+				_snprintf (buffer, format, this);
+			}
+			return (string) buffer;
 		}
 	}
 
