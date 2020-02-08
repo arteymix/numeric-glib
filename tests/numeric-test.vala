@@ -128,16 +128,12 @@ public int main (string[] args)
 	});
 
 	Test.add_func ("/decimal", () => {
-		var a = decimal32.parse ("0.1");
-		var b = decimal32.parse ("0.1");
-		var c = decimal32.parse ("0.1");
-		var d = decimal32.parse ("-0.3");
+		var a = decimal128.parse ("0.1");
+		var b = decimal128.parse ("0.1");
+		var c = decimal128.parse ("0.1");
+		var d = decimal128.parse ("-0.3");
 
 		var expected = decimal128.parse ("0.0");
-
-		print (a.to_string ());
-		assert (a.to_string () == "0.1");
-		assert (c.to_string () == "-0.3");
 
 		assert (a + b + c + d  ==  expected);
 	});
