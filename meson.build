@@ -7,7 +7,7 @@ quadmath = meson.get_compiler('c').find_library('quadmath')
 if get_option('with_libdfp')
     dfp = meson.get_compiler('c').find_library('dfp')
     add_project_arguments(['-D', 'HAVE_LIBDFP'], language: 'vala')
-    add_project_arguments(['-D__STDC_WANT_DEC_FP__'], language: 'c')
+    add_project_arguments(['-DHAVE_LIBDFP', '-D__STDC_WANT_DEC_FP__'], language: 'c')
 else
     dfp = []
 endif

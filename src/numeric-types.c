@@ -95,3 +95,14 @@ DEFINE_NUMERIC_WITH_BYTESWAP (float_le,  float,  gint32,  GINT32,  LE)
 DEFINE_NUMERIC_WITH_BYTESWAP (float_be,  float,  gint32,  GINT32,  BE)
 DEFINE_NUMERIC_WITH_BYTESWAP (double_le, double, gint32,  GINT64,  LE)
 DEFINE_NUMERIC_WITH_BYTESWAP (double_be, double, gint32,  GINT64,  BE)
+
+#if HAVE_LIBDFP
+extern void register_printf_dfp (void);
+
+__attribute__ ((constructor))
+static void
+numeric_types_init (void)
+{
+    register_printf_dfp ();
+}
+#endif

@@ -127,7 +127,35 @@ public int main (string[] args)
 	});
 
 #if HAVE_LIBDFP
-	Test.add_func ("/decimal", () => {
+	Test.add_func ("/decimal32", () => {
+		var a = decimal32.parse ("0.1");
+		var b = decimal32.parse ("0.1");
+		var c = decimal32.parse ("0.1");
+		var d = decimal32.parse ("-0.3");
+
+		var expected = decimal32.parse ("0.0");
+
+		assert (a + b + c + d  ==  expected);
+
+		assert (a.to_string () == "0.100000");
+		assert (expected.to_string () == "0.000000");
+	});
+
+	Test.add_func ("/decimal64", () => {
+		var a = decimal64.parse ("0.1");
+		var b = decimal64.parse ("0.1");
+		var c = decimal64.parse ("0.1");
+		var d = decimal64.parse ("-0.3");
+
+		var expected = decimal64.parse ("0.0");
+
+		assert (a + b + c + d  ==  expected);
+
+		assert (a.to_string () == "0.100000");
+		assert (expected.to_string () == "0.000000");
+	});
+
+	Test.add_func ("/decimal128", () => {
 		var a = decimal128.parse ("0.1");
 		var b = decimal128.parse ("0.1");
 		var c = decimal128.parse ("0.1");

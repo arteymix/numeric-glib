@@ -43,8 +43,7 @@ test_decimal128 (void)
     g_assert_cmpfloat (a + a, ==, 0.2DL);
 
 #if HAVE_LIBDFP
-    char buffer[128];
-    snprintf (buffer, sizeof buffer, "%DDf", a);
+    g_autofree gchar *buffer = g_strdup_printf ("%DDf", a);
     g_assert_cmpstr (buffer, ==, "0.100000");
 
     g_assert_cmpfloat (fabsd128 (a), ==, 0.1DL);
