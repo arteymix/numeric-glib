@@ -4,7 +4,7 @@ numeric_sources = [
     'numeric-types.c',
     'numeric-vector.c']
 numeric_glib_lib = library('numeric-glib-1.0', numeric_sources,
-                           dependencies: [glib, gobject, dfp],
+                           dependencies: [glib_dep, gobject_dep, dfp_dep],
                            c_args: '-DNUMERIC_COMPILATION',
                            install: true)
 
@@ -18,10 +18,7 @@ install_headers(['numeric.h', 'numeric-types.h', 'numeric-vector.h'], subdir: 'n
 install_data('numeric-glib-1.0.vapi', install_dir: 'share/vala/vapi')
 
 pkgconfig = import('pkgconfig')
-pkgconfig.generate(name: 'Numeric-GLib',
-                   version: '0.0.0',
+pkgconfig.generate(numeric_glib_lib,
+                   version: meson.project_version(),
                    description: 'Numeric data types for GLib via GCC extensions',
-                   requires: ['glib-2.0', 'gobject-2.0'],
-                   libraries: numeric_glib_lib,
-                   filebase: 'numeric-glib-1.0',
                    subdirs: 'numeric-glib-1.0')
