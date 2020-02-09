@@ -92,18 +92,42 @@ namespace Numeric
 				_quadmath_snprintf (buffer, format, this);
 			}
 			return (string) buffer;
-
 		}
 	}
 
 	[FloatingType (rank = 6)]
-	public struct decimal32 {}
+	public struct decimal32
+	{
+		[CCode (cname = "strtod32", cheader_filename="dfp/stdlib.h")]
+		public static decimal32 parse (string s, out char sp = null);
+		public string to_string ()
+		{
+			return "%Hf".printf (this);
+		}
+	}
 
 	[FloatingType (rank = 10)]
-	public struct decimal64 {}
+	public struct decimal64
+	{
+		[CCode (cname = "strtod64", cheader_filename="dfp/stdlib.h")]
+		public static decimal64 parse (string s, out char sp = null);
+		public string to_string ()
+		{
+			return "%Df".printf (this);
+		}
+	}
 
 	[FloatingType (rank = 12)]
-	public struct decimal128 {}
+	public struct decimal128
+	{
+		[CCode (cname = "strtod128", cheader_filename="dfp/stdlib.h")]
+		public static decimal128 parse (string s, out char sp = null);
+
+		public string to_string ()
+		{
+			return "%DDf".printf (this);
+		}
+	}
 
 	[FloatingType (rank = 6)]
 	public struct complex {}

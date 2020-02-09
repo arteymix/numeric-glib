@@ -50,7 +50,6 @@ public int main (string[] args)
 
 		var c = Value (typeof (float));
 		assert (b.transform (ref c));
-		message ("%f", c.get_float ());
 		assert (a.get_float () == c.get_float ());
 
 		var d = float_be.from_float (5.0f);
@@ -126,6 +125,50 @@ public int main (string[] args)
 		assert (3 == y[2]);
 		assert (4 == y[3]);
 	});
+
+#if HAVE_LIBDFP
+	Test.add_func ("/decimal32", () => {
+		var a = decimal32.parse ("0.1");
+		var b = decimal32.parse ("0.1");
+		var c = decimal32.parse ("0.1");
+		var d = decimal32.parse ("-0.3");
+
+		var expected = decimal32.parse ("0.0");
+
+		assert (a + b + c + d  ==  expected);
+
+		assert (a.to_string () == "0.100000");
+		assert (expected.to_string () == "0.000000");
+	});
+
+	Test.add_func ("/decimal64", () => {
+		var a = decimal64.parse ("0.1");
+		var b = decimal64.parse ("0.1");
+		var c = decimal64.parse ("0.1");
+		var d = decimal64.parse ("-0.3");
+
+		var expected = decimal64.parse ("0.0");
+
+		assert (a + b + c + d  ==  expected);
+
+		assert (a.to_string () == "0.100000");
+		assert (expected.to_string () == "0.000000");
+	});
+
+	Test.add_func ("/decimal128", () => {
+		var a = decimal128.parse ("0.1");
+		var b = decimal128.parse ("0.1");
+		var c = decimal128.parse ("0.1");
+		var d = decimal128.parse ("-0.3");
+
+		var expected = decimal128.parse ("0.0");
+
+		assert (a + b + c + d  ==  expected);
+
+		assert (a.to_string () == "0.100000");
+		assert (expected.to_string () == "0.000000");
+	});
+#endif
 
 	return Test.run ();
 }
