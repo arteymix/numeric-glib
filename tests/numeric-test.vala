@@ -140,6 +140,11 @@ public int main (string[] args)
 		assert (decimal32.FORMAT_MODIFIER == "H");
 		assert (a.to_string () == "0.100000");
 		assert (expected.to_string () == "0.000000");
+
+		var a_value = GLib.Value (typeof (decimal32));
+		a_value.set_boxed (&a);
+		var a_unboxed = (decimal32*) a_value.get_boxed ();
+		assert (*a_unboxed == decimal32.parse ("0.1"));
 	});
 
 	Test.add_func ("/decimal64", () => {
