@@ -48,6 +48,14 @@ DEFINE_NUMERIC_PROTOTYPE (complex,    _Complex)
 DEFINE_NUMERIC_PROTOTYPE (complex80,  _Complex80)
 DEFINE_NUMERIC_PROTOTYPE (complex128, _Complex128)
 
+#define NUMERIC_DECIMAL32_FORMAT  "Hf"
+#define NUMERIC_DECIMAL64_FORMAT  "Df"
+#define NUMERIC_DECIMAL128_FORMAT "DDf"
+
+#define NUMERIC_DECIMAL32_MODIFIER  "H"
+#define NUMERIC_DECIMAL64_MODIFIER  "D"
+#define NUMERIC_DECIMAL128_MODIFIER "DD"
+
 #define NUMERIC_TYPE_INT128     (numeric_int128_get_type     ())
 #define NUMERIC_TYPE_UINT128    (numeric_uint128_get_type    ())
 #define NUMERIC_TYPE_FLOAT80    (numeric_float80_get_type    ())

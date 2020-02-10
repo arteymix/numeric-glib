@@ -137,6 +137,7 @@ public int main (string[] args)
 
 		assert (a + b + c + d  ==  expected);
 
+		assert (decimal32.FORMAT_MODIFIER == "H");
 		assert (a.to_string () == "0.100000");
 		assert (expected.to_string () == "0.000000");
 	});
@@ -151,6 +152,7 @@ public int main (string[] args)
 
 		assert (a + b + c + d  ==  expected);
 
+		assert (decimal64.FORMAT_MODIFIER == "D");
 		assert (a.to_string () == "0.100000");
 		assert (expected.to_string () == "0.000000");
 	});
@@ -165,6 +167,7 @@ public int main (string[] args)
 
 		assert (a + b + c + d  ==  expected);
 
+		assert (decimal128.FORMAT_MODIFIER == "DD");
 		assert (a.to_string () == "0.100000");
 		assert (expected.to_string () == "0.000000");
 	});

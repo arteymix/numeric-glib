@@ -98,34 +98,48 @@ namespace Numeric
 	[FloatingType (rank = 6)]
 	public struct decimal32
 	{
+		public const string FORMAT;
+		[CCode (cname = "NUMERIC_DECIMAL32_MODIFIER")]
+		public const string FORMAT_MODIFIER;
+
 		[CCode (cname = "strtod32", cheader_filename="dfp/stdlib.h")]
 		public static decimal32 parse (string s, out char sp = null);
-		public string to_string ()
+
+		public string to_string (string format = "%" + FORMAT)
 		{
-			return "%Hf".printf (this);
+			return format.printf (this);
 		}
 	}
 
 	[FloatingType (rank = 10)]
 	public struct decimal64
 	{
+		public const string FORMAT;
+		[CCode (cname = "NUMERIC_DECIMAL64_MODIFIER")]
+		public const string FORMAT_MODIFIER;
+
 		[CCode (cname = "strtod64", cheader_filename="dfp/stdlib.h")]
 		public static decimal64 parse (string s, out char sp = null);
-		public string to_string ()
+
+		public string to_string (string format = "%" + FORMAT)
 		{
-			return "%Df".printf (this);
+			return format.printf (this);
 		}
 	}
 
 	[FloatingType (rank = 12)]
 	public struct decimal128
 	{
+		public const string FORMAT;
+		[CCode (cname = "NUMERIC_DECIMAL128_MODIFIER")]
+		public const string FORMAT_MODIFIER;
+
 		[CCode (cname = "strtod128", cheader_filename="dfp/stdlib.h")]
 		public static decimal128 parse (string s, out char sp = null);
 
-		public string to_string ()
+		public string to_string (string format = "%" + FORMAT)
 		{
-			return "%DDf".printf (this);
+			return format.printf (this);
 		}
 	}
 
