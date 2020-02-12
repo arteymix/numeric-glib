@@ -19,43 +19,43 @@
 [CCode (cprefix = "numeric_", cheader_filename = "numeric.h")]
 namespace Numeric
 {
-	[IntegerType (rank = 12)]
+	[IntegerType (rank = 12, width = 16)]
 	public struct int128 {}
 
-	[IntegerType (rank = 13)]
+	[IntegerType (rank = 13, width = 16)]
 	public struct uint128 {}
 
-	[FloatingType (rank = 10)]
+	[FloatingType (rank = 10, width = 4)]
 	public struct float_le
 	{
 		public static float_le from_float (float num);
 		public float to_float ();
 	}
 
-	[FloatingType (rank = 10)]
+	[FloatingType (rank = 10, width = 4)]
 	public struct float_be
 	{
 		public static float_be from_float (float num);
 		public float to_float ();
 	}
 
-	[FloatingType (rank = 11)]
+	[FloatingType (rank = 11, width = 8)]
 	public struct double_le
 	{
 		public static double_le from_double (double num);
 		public double to_double ();
 	}
 
-	[FloatingType (rank = 11)]
+	[FloatingType (rank = 11, width = 8)]
 	public struct double_be {
 		public static double_be from_double (double num);
 		public double to_double ();
 	}
 
-	[FloatingType (rank = 12)]
+	[FloatingType (rank = 12, width = 10)]
 	public struct float80 {}
 
-	[FloatingType (rank = 12)]
+	[FloatingType (rank = 12, width = 16)]
 	[CCode (cprefix = "FLT128_")]
 	public struct float128
 	{
@@ -95,7 +95,7 @@ namespace Numeric
 		}
 	}
 
-	[FloatingType (rank = 6)]
+	[FloatingType (decimal = true, rank = 6, width = 4)]
 	public struct decimal32
 	{
 		public const string FORMAT;
@@ -111,7 +111,7 @@ namespace Numeric
 		}
 	}
 
-	[FloatingType (rank = 10)]
+	[FloatingType (decimal = true, rank = 10, width = 8)]
 	public struct decimal64
 	{
 		public const string FORMAT;
@@ -127,7 +127,7 @@ namespace Numeric
 		}
 	}
 
-	[FloatingType (rank = 12)]
+	[FloatingType (decimal = true, rank = 12, width = 16)]
 	public struct decimal128
 	{
 		public const string FORMAT;
@@ -143,13 +143,13 @@ namespace Numeric
 		}
 	}
 
-	[FloatingType (rank = 6)]
+	[FloatingType (rank = 6, width = 8)]
 	public struct complex {}
 
-	[FloatingType (rank = 12)]
+	[FloatingType (rank = 12, width = 10)]
 	public struct complex80 {}
 
-	[FloatingType (rank = 12)]
+	[FloatingType (rank = 12, width = 16)]
 	public struct complex128 {}
 
 	public struct int32_v16
