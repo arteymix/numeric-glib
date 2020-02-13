@@ -59,6 +59,11 @@ namespace Numeric
 	[CCode (cprefix = "FLT128_")]
 	public struct float128
 	{
+		[CCode (cname = "NUMERIC_FLOAT128_FORMAT")]
+		public const string FORMAT;
+		[CCode (cname = "NUMERIC_FLOAT128_MODIFIER")]
+		public const string FORMAT_MODIFIER;
+
 		[CCode (cheader_filename = "quadmath.h")]
 		public const float128 MAX;
 		[CCode (cheader_filename = "quadmath.h")]
@@ -83,7 +88,7 @@ namespace Numeric
 		public static float128 parse (string s, out char sp = null);
 		[CCode (cname = "quadmath_snprintf")]
 		private static int _quadmath_snprintf (char[] s, string format, ...);
-		public string to_string (string format = "%Q")
+		public string to_string (string format = "%" + FORMAT)
 		{
 			var buffer = new char[128];
 			var n = _quadmath_snprintf (buffer, format, this);
