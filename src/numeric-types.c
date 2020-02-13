@@ -54,17 +54,6 @@ numeric_value_set_##type (GValue *val, numeric_##type x)         \
     g_value_set_boxed (val, ptr);                                \
 }
 
-DEFINE_NUMERIC (int128)
-DEFINE_NUMERIC (uint128)
-DEFINE_NUMERIC (float80)
-DEFINE_NUMERIC (float128)
-DEFINE_NUMERIC (decimal32)
-DEFINE_NUMERIC (decimal64)
-DEFINE_NUMERIC (decimal128)
-DEFINE_NUMERIC (complex)
-DEFINE_NUMERIC (complex80)
-DEFINE_NUMERIC (complex128)
-
 #define DEFINE_NUMERIC_WITH_BYTESWAP(type,gtype,stype,routine,order) \
 DEFINE_NUMERIC (type)                                                \
 numeric_##type                                                       \
@@ -92,6 +81,51 @@ numeric_##type##_to_##gtype (numeric_##type num)                     \
     data.v_swap   = routine##_FROM_##order (data.v_swap);            \
     return data.v_##gtype;                                           \
 }
+
+typedef struct _NumericTypeInfo
+{
+    gsize            width;
+    NumericByteOrder byte_order;
+} NumericTypeInfo;
+
+NumericTypeInfo*
+numeric_type_get_info (GType type)
+{
+    return NULL; // TODO
+}
+
+/**
+ * numeric_type_get_width:
+ * Obtain the number of bytes occupied by @numeric_type.
+ */
+gsize
+numeric_type_get_width (GType numeric_type)
+{
+    return 0;
+}
+
+/**
+ * numeric_type_get_byte_order:
+ * Obtain the byte order of @numeric_type.
+ */
+NumericByteOrder
+numeric_type_get_byte_order (GType numeric_type)
+{
+    NumericTypeInfo *type_info;
+    type_info = numeric_type_get_info (numeric_type);
+    return type_info->byte_order;
+}
+
+DEFINE_NUMERIC (int128)
+DEFINE_NUMERIC (uint128)
+DEFINE_NUMERIC (float80)
+DEFINE_NUMERIC (float128)
+DEFINE_NUMERIC (decimal32)
+DEFINE_NUMERIC (decimal64)
+DEFINE_NUMERIC (decimal128)
+DEFINE_NUMERIC (complex)
+DEFINE_NUMERIC (complex80)
+DEFINE_NUMERIC (complex128)
 
 DEFINE_NUMERIC_WITH_BYTESWAP (int_le,    int,    gint,    GINT,    LE)
 DEFINE_NUMERIC_WITH_BYTESWAP (int_be,    int,    gint,    GINT,    BE)

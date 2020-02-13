@@ -27,6 +27,22 @@
 
 G_BEGIN_DECLS
 
+struct NumericTypeInfo;
+
+/**
+ * @NUMERIC_BYTE_ORDER_UNKNOWN: If unknown or implementation-defined
+ */
+typedef enum _NumericByteOrder
+{
+    NUMERIC_BYTE_ORDER_UNKNOWN,
+    NUMERIC_BYTE_ORDER_LITTLE_ENDIAN,
+    NUMERIC_BYTE_ORDER_BIG_ENDIAN,
+    NUMERIC_BYTE_ORDER_PDP_ENDIAN
+} NumericByteOrder;
+
+gsize            numeric_type_get_width      (GType numeric_type);
+NumericByteOrder numeric_type_get_byte_order (GType numeric_type);
+
 #define DEFINE_NUMERIC_PROTOTYPE(type,ctype)                     \
 typedef ctype   numeric_##type;                                  \
 GType           numeric_##type##_get_type (void) G_GNUC_CONST;   \
