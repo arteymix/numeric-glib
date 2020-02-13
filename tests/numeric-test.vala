@@ -19,6 +19,11 @@
 using GLib;
 using Numeric;
 
+class Foo : Object
+{
+	public float128 bar { get; set; default = float128.parse ("0.1"); }
+}
+
 public int main (string[] args)
 {
 	Test.init (ref args);
@@ -177,6 +182,20 @@ public int main (string[] args)
 		assert (expected.to_string () == "0.000000");
 	});
 #endif
+
+	Test.add_func ("/gobject", () => {
+		var foo = new Foo ();
+		assert (foo.bar == float128.parse ("0.1"));
+		foo.bar = 12;
+		assert (foo.bar == 12);
+		print (foo.bar.to_string ());
+		assert (foo.bar.to_string () == "12.000000");
+		foo.set_property ("bar", float128.parse ("0.2"));
+		assert (foo.bar == float128.parse ("0.2"));
+		var ret = Value (typeof (float128));
+		foo.get_property ("bar", ref ret);
+		assert ((float128) ret == float128.parse ("0.2"));
+	});
 
 	return Test.run ();
 }

@@ -20,24 +20,38 @@
 
 #include <string.h>
 
-#define DEFINE_NUMERIC(type)                           \
-G_DEFINE_BOXED_TYPE (numeric_##type,                   \
-                     numeric_##type,                   \
-                     numeric_##type##_copy,            \
-                     numeric_##type##_free)            \
-                                                       \
-numeric_##type *                                       \
-numeric_##type##_copy (numeric_##type *num)            \
-{                                                      \
-    gpointer ptr = g_malloc (sizeof (numeric_##type)); \
-    memcpy (ptr, num, sizeof (numeric_##type));        \
-    return ptr;                                        \
-}                                                      \
-                                                       \
-void                                                   \
-numeric_##type##_free (numeric_##type *num)            \
-{                                                      \
-    g_free (num);                                      \
+#define DEFINE_NUMERIC(type)                                     \
+G_DEFINE_BOXED_TYPE (numeric_##type,                             \
+                     numeric_##type,                             \
+                     numeric_##type##_copy,                      \
+                     numeric_##type##_free)                      \
+                                                                 \
+numeric_##type *                                                 \
+numeric_##type##_copy (numeric_##type *num)                      \
+{                                                                \
+    gpointer ptr = g_new (numeric_##type, 1);                    \
+    memcpy (ptr, num, sizeof (numeric_##type));                  \
+    return ptr;                                                  \
+}                                                                \
+                                                                 \
+void                                                             \
+numeric_##type##_free (numeric_##type *num)                      \
+{                                                                \
+    g_free (num);                                                \
+}                                                                \
+                                                                 \
+numeric_##type                                                   \
+numeric_value_get_##type (const GValue *val)                     \
+{                                                                \
+    return *(numeric_##type*)g_value_get_boxed (val);            \
+}                                                                \
+                                                                 \
+void                                                             \
+numeric_value_set_##type (GValue *val, numeric_##type x)         \
+{                                                                \
+    numeric_##type *ptr = g_new (numeric_##type, 1);             \
+    *ptr = x;                                                    \
+    g_value_set_boxed (val, ptr);                                \
 }
 
 DEFINE_NUMERIC (int128)

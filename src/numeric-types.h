@@ -31,7 +31,9 @@ G_BEGIN_DECLS
 typedef ctype   numeric_##type;                                  \
 GType           numeric_##type##_get_type (void) G_GNUC_CONST;   \
 numeric_##type *numeric_##type##_copy     (numeric_##type *num); \
-void            numeric_##type##_free     (numeric_##type *num);
+void            numeric_##type##_free     (numeric_##type *num); \
+numeric_##type  numeric_value_get_##type  (const GValue *val);  \
+void            numeric_value_set_##type  (GValue *val, numeric_##type x);
 
 // http://gcc.gnu.org/onlinedocs/gcc/Floating-Types.html#Floating-Types
 typedef _Complex float __attribute__((mode(TC))) _Complex128;

@@ -20,12 +20,15 @@
 namespace Numeric
 {
 	[IntegerType (rank = 12, width = 16)]
+	[CCode (get_value_function = "numeric_value_get_int128", set_value_function = "numeric_value_set_int128")]
 	public struct int128 {}
 
 	[IntegerType (rank = 13, width = 16)]
+	[CCode (get_value_function = "numeric_value_get_uint128", set_value_function = "numeric_value_set_uint128")]
 	public struct uint128 {}
 
 	[FloatingType (rank = 10, width = 4)]
+	[CCode (get_value_function = "numeric_value_get_float_le", set_value_function = "numeric_value_set_float_le")]
 	public struct float_le
 	{
 		public static float_le from_float (float num);
@@ -33,6 +36,7 @@ namespace Numeric
 	}
 
 	[FloatingType (rank = 10, width = 4)]
+	[CCode (get_value_function = "numeric_value_get_float_be", set_value_function = "numeric_value_set_float_be")]
 	public struct float_be
 	{
 		public static float_be from_float (float num);
@@ -40,6 +44,7 @@ namespace Numeric
 	}
 
 	[FloatingType (rank = 11, width = 8)]
+	[CCode (get_value_function = "numeric_value_get_double_le", set_value_function = "numeric_value_set_double_le")]
 	public struct double_le
 	{
 		public static double_le from_double (double num);
@@ -47,16 +52,18 @@ namespace Numeric
 	}
 
 	[FloatingType (rank = 11, width = 8)]
+	[CCode (get_value_function = "numeric_value_get_double_be", set_value_function = "numeric_value_set_double_be")]
 	public struct double_be {
 		public static double_be from_double (double num);
 		public double to_double ();
 	}
 
 	[FloatingType (rank = 12, width = 10)]
+	[CCode (get_value_function = "numeric_value_get_float80", set_value_function = "numeric_value_set_float80")]
 	public struct float80 {}
 
 	[FloatingType (rank = 12, width = 16)]
-	[CCode (cprefix = "FLT128_")]
+	[CCode (cprefix = "FLT128_", get_value_function = "numeric_value_get_float128", set_value_function = "numeric_value_set_float128")]
 	public struct float128
 	{
 		[CCode (cname = "NUMERIC_FLOAT128_FORMAT")]
@@ -101,6 +108,7 @@ namespace Numeric
 	}
 
 	[FloatingType (decimal = true, rank = 6, width = 4)]
+	[CCode (get_value_function = "numeric_value_get_decimal32", set_value_function = "numeric_value_set_decimal32")]
 	public struct decimal32
 	{
 		public const string FORMAT;
@@ -117,6 +125,7 @@ namespace Numeric
 	}
 
 	[FloatingType (decimal = true, rank = 10, width = 8)]
+	[CCode (get_value_function = "numeric_value_get_decimal64", set_value_function = "numeric_value_set_decimal64")]
 	public struct decimal64
 	{
 		public const string FORMAT;
@@ -133,6 +142,7 @@ namespace Numeric
 	}
 
 	[FloatingType (decimal = true, rank = 12, width = 16)]
+	[CCode (get_value_function = "numeric_value_get_decimal128", set_value_function = "numeric_value_set_decimal128")]
 	public struct decimal128
 	{
 		public const string FORMAT;
@@ -149,12 +159,15 @@ namespace Numeric
 	}
 
 	[FloatingType (rank = 6, width = 8)]
+	[CCode (get_value_function = "numeric_value_get_complex", set_value_function = "numeric_value_set_complex")]
 	public struct complex {}
 
 	[FloatingType (rank = 12, width = 10)]
+	[CCode (get_value_function = "numeric_value_get_complex80", set_value_function = "numeric_value_set_complex80")]
 	public struct complex80 {}
 
 	[FloatingType (rank = 12, width = 16)]
+	[CCode (get_value_function = "numeric_value_get_complex128", set_value_function = "numeric_value_set_complex128")]
 	public struct complex128 {}
 
 	public struct int32_v16
