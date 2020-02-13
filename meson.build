@@ -12,7 +12,7 @@ if get_option('with_libdfp')
     add_project_arguments(['-D', 'HAVE_LIBDFP'], language: 'vala')
     add_project_arguments(['-DHAVE_LIBDFP'], language: 'c')
 else
-    dfp = []
+    dfp_dep = []
 endif
 
 subdir('src')
