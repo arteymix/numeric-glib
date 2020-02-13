@@ -40,6 +40,12 @@ typedef enum _NumericByteOrder
     NUMERIC_BYTE_ORDER_PDP_ENDIAN
 } NumericByteOrder;
 
+void numeric_type_register_static (GType             numeric_type,
+                                   const gchar      *name,
+                                   gsize             width,
+                                   NumericByteOrder  byte_order);
+
+const gchar *    numeric_type_get_name       (GType numeric_type);
 gsize            numeric_type_get_width      (GType numeric_type);
 NumericByteOrder numeric_type_get_byte_order (GType numeric_type);
 

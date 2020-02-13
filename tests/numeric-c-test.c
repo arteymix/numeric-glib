@@ -20,6 +20,7 @@
 #include <stdio.h>
 
 #include <glib.h>
+#include <assert.h>
 
 #if HAVE_LIBDFP
 #include <dfp/stdlib.h>
@@ -32,6 +33,10 @@ void
 test_decimal128 (void)
 {
     numeric_decimal128 a;
+
+    g_assert_cmpstr (numeric_type_get_name (NUMERIC_TYPE_DECIMAL128), ==, "decimal128");
+    assert (numeric_type_get_width (NUMERIC_TYPE_DECIMAL128) == 16);
+    assert (numeric_type_get_byte_order (NUMERIC_TYPE_DECIMAL128) == NUMERIC_BYTE_ORDER_UNKNOWN);
 
 #if HAVE_LIBDFP
     a = strtod128 ("0.1", NULL);

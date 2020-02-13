@@ -18,6 +18,7 @@
 
 #include "numeric-types.h"
 
+#include <glib.h>
 #include <string.h>
 
 #define DEFINE_NUMERIC(type)                                     \
@@ -84,14 +85,63 @@ numeric_##type##_to_##gtype (numeric_##type num)                     \
 
 typedef struct _NumericTypeInfo
 {
-    gsize            width;
-    NumericByteOrder byte_order;
+    GType             type;
+    const gchar      *name;
+    gsize             width;
+    NumericByteOrder  byte_order;
 } NumericTypeInfo;
+
+GArray *TYPE_TABLE = NULL;
+
+void
+numeric_type_register_static (GType        type,
+                              const gchar *name,
+                              gsize width,
+                              NumericByteOrder byte_order)
+{
+    if (TYPE_TABLE == NULL)
+    {
+        TYPE_TABLE = g_array_new (FALSE, FALSE, sizeof (NumericTypeInfo));
+    }
+
+    NumericTypeInfo ti = {
+        .type       = type,
+        .name       = g_strdup (name),
+        .width      = width,
+        .byte_order = byte_order};
+
+    g_array_append_val (TYPE_TABLE,
+                        ti);
+}
 
 NumericTypeInfo*
 numeric_type_get_info (GType type)
 {
-    return NULL; // TODO
+    gint i;
+    for (i = 0; i < TYPE_TABLE->len; i++)
+    {
+        NumericTypeInfo* ti = &g_array_index (TYPE_TABLE, NumericTypeInfo, i);
+        if (ti->type == type)
+        {
+            return ti;
+        }
+    }
+
+    g_return_val_if_reached (NULL);
+}
+
+GTypeInfo *type_database;
+
+/**
+ * numeric_type_get_name:
+ * Obtain the number of bytes occupied by @numeric_type.
+ */
+const gchar *
+numeric_type_get_name (GType numeric_type)
+{
+    NumericTypeInfo *type_info;
+    type_info = numeric_type_get_info (numeric_type);
+    return type_info->name;
 }
 
 /**
@@ -101,7 +151,9 @@ numeric_type_get_info (GType type)
 gsize
 numeric_type_get_width (GType numeric_type)
 {
-    return 0;
+    NumericTypeInfo *type_info;
+    type_info = numeric_type_get_info (numeric_type);
+    return type_info->width;
 }
 
 /**
@@ -146,11 +198,18 @@ DEFINE_NUMERIC_WITH_BYTESWAP (double_be, double, gint32,  GINT64,  BE)
 
 #if HAVE_LIBDFP
 extern void register_printf_dfp (void);
+#endif
 
 __attribute__ ((constructor))
 static void
 numeric_types_init (void)
 {
+    numeric_type_register_static (numeric_decimal128_get_type (),
+                                  "decimal128",
+                                  sizeof (numeric_decimal128),
+                                  NUMERIC_BYTE_ORDER_UNKNOWN);
+
+#if HAVE_LIBDFP
     register_printf_dfp ();
-}
 #endif
+}
