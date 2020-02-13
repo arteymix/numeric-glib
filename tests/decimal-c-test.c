@@ -21,10 +21,8 @@
 
 #include <glib.h>
 
-#if HAVE_LIBDFP
-#include <dfp/stdlib.h>
-#include <dfp/math.h>
-#endif
+#include <stdlib.h>
+#include <math.h>
 
 #include <numeric.h>
 
