@@ -30,13 +30,20 @@
 #include <numeric.h>
 
 void
+test_glib_types (void)
+{
+    g_assert_cmpstr (numeric_type_get_name (G_TYPE_INT), ==, "int");
+    g_assert_cmpstr (numeric_type_get_name (G_TYPE_UINT), ==, "uint");
+}
+
+void
 test_decimal128 (void)
 {
     numeric_decimal128 a;
 
     g_assert_cmpstr (numeric_type_get_name (NUMERIC_TYPE_DECIMAL128), ==, "decimal128");
     assert (numeric_type_get_width (NUMERIC_TYPE_DECIMAL128) == 16);
-    assert (numeric_type_get_byte_order (NUMERIC_TYPE_DECIMAL128) == NUMERIC_BYTE_ORDER_UNKNOWN);
+    assert (numeric_type_get_byte_order (NUMERIC_TYPE_DECIMAL128) == G_BYTE_ORDER);
 
 #if HAVE_LIBDFP
     a = strtod128 ("0.1", NULL);
@@ -60,7 +67,9 @@ main (int argc, char **argv)
 {
     g_test_init (&argc, &argv, NULL);
 
+    g_test_add_func ("/glib-types", test_glib_types);
     g_test_add_func ("/decimal128", test_decimal128);
+
 
     return g_test_run ();
 }

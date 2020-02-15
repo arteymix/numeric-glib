@@ -22,10 +22,11 @@
 #include <string.h>
 
 #define DEFINE_NUMERIC(type)                                     \
-G_DEFINE_BOXED_TYPE (numeric_##type,                             \
-                     numeric_##type,                             \
-                     numeric_##type##_copy,                      \
-                     numeric_##type##_free)                      \
+G_DEFINE_BOXED_TYPE_WITH_CODE (numeric_##type,                   \
+                               numeric_##type,                   \
+                               numeric_##type##_copy,            \
+                               numeric_##type##_free,            \
+                               numeric_type_register_static (g_define_type_id, G_STRINGIFY(type), sizeof (numeric_##type), G_BYTE_ORDER)) \
                                                                  \
 numeric_##type *                                                 \
 numeric_##type##_copy (numeric_##type *num)                      \
@@ -83,25 +84,26 @@ numeric_##type##_to_##gtype (numeric_##type num)                     \
     return data.v_##gtype;                                           \
 }
 
-typedef struct _NumericTypeInfo
-{
-    GType             type;
-    const gchar      *name;
-    gsize             width;
-    NumericByteOrder  byte_order;
-} NumericTypeInfo;
-
 GArray *TYPE_TABLE = NULL;
 
 void
 numeric_type_register_static (GType        type,
                               const gchar *name,
                               gsize width,
-                              NumericByteOrder byte_order)
+                              gint         byte_order)
 {
     if (TYPE_TABLE == NULL)
     {
         TYPE_TABLE = g_array_new (FALSE, FALSE, sizeof (NumericTypeInfo));
+    }
+
+    /* make sure we don't register the same type twice */
+    gint i;
+    for (i = 0; i < TYPE_TABLE->len; i++)
+    {
+        NumericTypeInfo* ti = &g_array_index (TYPE_TABLE, NumericTypeInfo, i);
+        if (ti->type == type)
+            return;
     }
 
     NumericTypeInfo ti = {
@@ -114,8 +116,8 @@ numeric_type_register_static (GType        type,
                         ti);
 }
 
-NumericTypeInfo*
-numeric_type_get_info (GType type)
+const NumericTypeInfo *
+numeric_get_type_info (GType type)
 {
     gint i;
     for (i = 0; i < TYPE_TABLE->len; i++)
@@ -130,7 +132,21 @@ numeric_type_get_info (GType type)
     g_return_val_if_reached (NULL);
 }
 
-GTypeInfo *type_database;
+const NumericTypeInfo *
+numeric_get_type_info_from_name (const gchar *name)
+{
+    gint i;
+    for (i = 0; i < TYPE_TABLE->len; i++)
+    {
+        const NumericTypeInfo* ti = &g_array_index (TYPE_TABLE, NumericTypeInfo, i);
+        if (g_strcmp0 (ti->name, name) == 0)
+        {
+            return ti;
+        }
+    }
+
+    g_return_val_if_reached (NULL);
+}
 
 /**
  * numeric_type_get_name:
@@ -139,8 +155,8 @@ GTypeInfo *type_database;
 const gchar *
 numeric_type_get_name (GType numeric_type)
 {
-    NumericTypeInfo *type_info;
-    type_info = numeric_type_get_info (numeric_type);
+    const NumericTypeInfo *type_info;
+    type_info = numeric_get_type_info (numeric_type);
     return type_info->name;
 }
 
@@ -151,8 +167,8 @@ numeric_type_get_name (GType numeric_type)
 gsize
 numeric_type_get_width (GType numeric_type)
 {
-    NumericTypeInfo *type_info;
-    type_info = numeric_type_get_info (numeric_type);
+    const NumericTypeInfo *type_info;
+    type_info = numeric_get_type_info (numeric_type);
     return type_info->width;
 }
 
@@ -160,11 +176,11 @@ numeric_type_get_width (GType numeric_type)
  * numeric_type_get_byte_order:
  * Obtain the byte order of @numeric_type.
  */
-NumericByteOrder
+gint
 numeric_type_get_byte_order (GType numeric_type)
 {
-    NumericTypeInfo *type_info;
-    type_info = numeric_type_get_info (numeric_type);
+    const NumericTypeInfo *type_info;
+    type_info = numeric_get_type_info (numeric_type);
     return type_info->byte_order;
 }
 
@@ -204,10 +220,17 @@ __attribute__ ((constructor))
 static void
 numeric_types_init (void)
 {
-    numeric_type_register_static (numeric_decimal128_get_type (),
-                                  "decimal128",
-                                  sizeof (numeric_decimal128),
-                                  NUMERIC_BYTE_ORDER_UNKNOWN);
+    // register all GLib numerical types
+    numeric_type_register_static (G_TYPE_CHAR,   "char",   sizeof (gchar),   G_BYTE_ORDER);
+    numeric_type_register_static (G_TYPE_UCHAR,  "uchar",  sizeof (guchar),  G_BYTE_ORDER);
+    numeric_type_register_static (G_TYPE_INT,    "int",    sizeof (gint),    G_BYTE_ORDER);
+    numeric_type_register_static (G_TYPE_UINT,   "uint",   sizeof (guint),   G_BYTE_ORDER);
+    numeric_type_register_static (G_TYPE_LONG,   "long",   sizeof (glong),   G_BYTE_ORDER);
+    numeric_type_register_static (G_TYPE_ULONG,  "ulong",  sizeof (gulong),  G_BYTE_ORDER);
+    numeric_type_register_static (G_TYPE_INT64,  "int64",  sizeof (gint64),  G_BYTE_ORDER);
+    numeric_type_register_static (G_TYPE_UINT64, "uint64", sizeof (guint64), G_BYTE_ORDER);
+    numeric_type_register_static (G_TYPE_FLOAT,  "float",  sizeof (gfloat),  G_BYTE_ORDER);
+    numeric_type_register_static (G_TYPE_DOUBLE, "double", sizeof (gdouble), G_BYTE_ORDER);
 
 #if HAVE_LIBDFP
     register_printf_dfp ();
