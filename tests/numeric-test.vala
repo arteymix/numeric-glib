@@ -28,6 +28,11 @@ public int main (string[] args)
 {
 	Test.init (ref args);
 
+	Test.add_func ("/type_info", () => {
+		unowned Numeric.TypeInfo ti = Numeric.get_type_info_from_name ("float128");
+		assert (ti.byte_order == ByteOrder.HOST);
+	});
+
 	Test.add_func ("/size", () => {
 		assert (sizeof (int128) == 16);
 		assert (sizeof (uint128) == 16);
@@ -43,6 +48,11 @@ public int main (string[] args)
 	});
 
 	Test.add_func ("/float_be", () => {
+		unowned Numeric.TypeInfo ti = get_type_info (typeof (float_be));
+
+		assert (ti.name == "float_be");
+		assert (ti.byte_order == ByteOrder.BIG_ENDIAN);
+
 		var a = Value (typeof (float));
 		a.set_float (5.0f);
 

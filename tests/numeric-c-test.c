@@ -29,9 +29,22 @@
 #include <numeric.h>
 
 void
+test_glib_types (void)
+{
+    g_assert_cmpstr (numeric_get_type_info (G_TYPE_INT)->name, ==, "int");
+    g_assert_cmpstr (numeric_get_type_info (G_TYPE_UINT)->name, ==, "uint");
+}
+
+void
 test_decimal128 (void)
 {
     numeric_decimal128 a;
+
+    const NumericTypeInfo *ti = numeric_get_type_info (NUMERIC_TYPE_DECIMAL128);
+
+    g_assert_cmpstr (ti->name, ==, "decimal128");
+    g_assert_cmpint (ti->width, ==, 16);
+    g_assert (ti->byte_order == G_BYTE_ORDER);
 
 #if HAVE_LIBDFP
     a = strtod128 ("0.1", NULL);
@@ -55,7 +68,9 @@ main (int argc, char **argv)
 {
     g_test_init (&argc, &argv, NULL);
 
+    g_test_add_func ("/glib-types", test_glib_types);
     g_test_add_func ("/decimal128", test_decimal128);
+
 
     return g_test_run ();
 }

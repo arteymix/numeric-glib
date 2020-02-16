@@ -19,6 +19,19 @@
 [CCode (cprefix = "numeric_", cheader_filename = "numeric.h")]
 namespace Numeric
 {
+	[Compact]
+	[CCode (cname = "NumericTypeInfo")]
+	public class TypeInfo
+	{
+		public GLib.Type type;
+		public string name;
+		public size_t width;
+		public GLib.ByteOrder byte_order;
+	}
+
+	public unowned Numeric.TypeInfo get_type_info (GLib.Type type);
+	public unowned Numeric.TypeInfo get_type_info_from_name (string name);
+
 	[IntegerType (rank = 12, width = 16)]
 	[CCode (get_value_function = "numeric_value_get_int128", set_value_function = "numeric_value_set_int128")]
 	public struct int128 {}

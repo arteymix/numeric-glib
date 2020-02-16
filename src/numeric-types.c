@@ -18,13 +18,15 @@
 
 #include "numeric-types.h"
 
+#include <glib.h>
 #include <string.h>
 
-#define DEFINE_NUMERIC(type)                                     \
-G_DEFINE_BOXED_TYPE (numeric_##type,                             \
-                     numeric_##type,                             \
-                     numeric_##type##_copy,                      \
-                     numeric_##type##_free)                      \
+#define DEFINE_NUMERIC(type,byte_order)                          \
+G_DEFINE_BOXED_TYPE_WITH_CODE (numeric_##type,                   \
+                               numeric_##type,                   \
+                               numeric_##type##_copy,            \
+                               numeric_##type##_free,            \
+                               numeric_type_register_static_simple (g_define_type_id, G_STRINGIFY(type), sizeof (numeric_##type), byte_order)) \
                                                                  \
 numeric_##type *                                                 \
 numeric_##type##_copy (numeric_##type *num)                      \
@@ -54,19 +56,8 @@ numeric_value_set_##type (GValue *val, numeric_##type x)         \
     g_value_set_boxed (val, ptr);                                \
 }
 
-DEFINE_NUMERIC (int128)
-DEFINE_NUMERIC (uint128)
-DEFINE_NUMERIC (float80)
-DEFINE_NUMERIC (float128)
-DEFINE_NUMERIC (decimal32)
-DEFINE_NUMERIC (decimal64)
-DEFINE_NUMERIC (decimal128)
-DEFINE_NUMERIC (complex)
-DEFINE_NUMERIC (complex80)
-DEFINE_NUMERIC (complex128)
-
-#define DEFINE_NUMERIC_WITH_BYTESWAP(type,gtype,stype,routine,order) \
-DEFINE_NUMERIC (type)                                                \
+#define DEFINE_NUMERIC_WITH_BYTESWAP(type,byte_order,gtype,stype,routine,order) \
+DEFINE_NUMERIC (type,byte_order)                                     \
 numeric_##type                                                       \
 numeric_##type##_from_##gtype (g##gtype num)                         \
 {                                                                    \
@@ -93,30 +84,158 @@ numeric_##type##_to_##gtype (numeric_##type num)                     \
     return data.v_##gtype;                                           \
 }
 
-DEFINE_NUMERIC_WITH_BYTESWAP (int_le,    int,    gint,    GINT,    LE)
-DEFINE_NUMERIC_WITH_BYTESWAP (int_be,    int,    gint,    GINT,    BE)
-DEFINE_NUMERIC_WITH_BYTESWAP (uint_le,   uint,   guint,   GUINT,   LE)
-DEFINE_NUMERIC_WITH_BYTESWAP (uint_be,   uint,   guint,   GUINT,   BE)
-DEFINE_NUMERIC_WITH_BYTESWAP (long_le,   long,   glong,   GLONG,   LE)
-DEFINE_NUMERIC_WITH_BYTESWAP (long_be,   long,   glong,   GLONG,   BE)
-DEFINE_NUMERIC_WITH_BYTESWAP (ulong_le,  ulong,  gulong,  GLONG,   LE)
-DEFINE_NUMERIC_WITH_BYTESWAP (ulong_be,  ulong,  gulong,  GLONG,   BE)
-DEFINE_NUMERIC_WITH_BYTESWAP (int64_le,  int64,  gint64,  GINT64,  LE)
-DEFINE_NUMERIC_WITH_BYTESWAP (int64_be,  int64,  gint64,  GINT64,  BE)
-DEFINE_NUMERIC_WITH_BYTESWAP (uint64_le, uint64, guint64, GUINT64, LE)
-DEFINE_NUMERIC_WITH_BYTESWAP (uint64_be, uint64, guint64, GUINT64, BE)
-DEFINE_NUMERIC_WITH_BYTESWAP (float_le,  float,  gint32,  GINT32,  LE)
-DEFINE_NUMERIC_WITH_BYTESWAP (float_be,  float,  gint32,  GINT32,  BE)
-DEFINE_NUMERIC_WITH_BYTESWAP (double_le, double, gint32,  GINT64,  LE)
-DEFINE_NUMERIC_WITH_BYTESWAP (double_be, double, gint32,  GINT64,  BE)
+static GArray *TYPE_TABLE = NULL;
+
+static void
+numeric_type_info_init (NumericTypeInfo *type_info,
+                        GType            type,
+                        const gchar     *name,
+                        gsize            width,
+                        gint             byte_order)
+{
+    type_info->type       = type,
+    type_info->name       = g_strdup (name);
+    type_info->width      = width;
+    type_info->byte_order = byte_order;
+}
+
+static void
+numeric_type_info_clear (NumericTypeInfo *type_info)
+{
+    g_free (type_info->name);
+}
+
+/**
+ *
+ */
+void numeric_type_register_static (GType                  type,
+                                   const gchar            *name,
+                                   const NumericTypeInfo *type_info)
+{
+    if (TYPE_TABLE == NULL)
+    {
+        TYPE_TABLE = g_array_new (FALSE, FALSE, sizeof (NumericTypeInfo));
+        g_array_set_clear_func (TYPE_TABLE, (GDestroyNotify) numeric_type_info_clear);
+    }
+
+    /* make sure we don't register the same type twice */
+    gint i;
+    for (i = 0; i < TYPE_TABLE->len; i++)
+    {
+        NumericTypeInfo* ti = &g_array_index (TYPE_TABLE, NumericTypeInfo, i);
+        if (ti->type == type_info->type)
+            return;
+    }
+
+    g_array_append_vals (TYPE_TABLE, type_info, 1);
+}
+
+void
+numeric_type_register_static_simple (GType        type,
+                                     const gchar *name,
+                                     gsize        width,
+                                     gint         byte_order)
+{
+    NumericTypeInfo ti;
+
+    numeric_type_info_init (&ti, type, name, width, byte_order);
+
+    numeric_type_register_static (type, name, &ti);
+}
+
+/*
+ * GLib numerical types already have existing definitions for *_get_type(),
+ * preventing us from registering their numeric_{type}_get_type() counterpart
+ * lazily.
+ */
+static void
+register_glib_numerical_types ()
+{
+    numeric_type_register_static_simple (G_TYPE_CHAR,   "char",   sizeof (gchar),   G_BYTE_ORDER);
+    numeric_type_register_static_simple (G_TYPE_UCHAR,  "uchar",  sizeof (guchar),  G_BYTE_ORDER);
+    numeric_type_register_static_simple (G_TYPE_INT,    "int",    sizeof (gint),    G_BYTE_ORDER);
+    numeric_type_register_static_simple (G_TYPE_UINT,   "uint",   sizeof (guint),   G_BYTE_ORDER);
+    numeric_type_register_static_simple (G_TYPE_LONG,   "long",   sizeof (glong),   G_BYTE_ORDER);
+    numeric_type_register_static_simple (G_TYPE_ULONG,  "ulong",  sizeof (gulong),  G_BYTE_ORDER);
+    numeric_type_register_static_simple (G_TYPE_INT64,  "int64",  sizeof (gint64),  G_BYTE_ORDER);
+    numeric_type_register_static_simple (G_TYPE_UINT64, "uint64", sizeof (guint64), G_BYTE_ORDER);
+    numeric_type_register_static_simple (G_TYPE_FLOAT,  "float",  sizeof (gfloat),  G_BYTE_ORDER);
+    numeric_type_register_static_simple (G_TYPE_DOUBLE, "double", sizeof (gdouble), G_BYTE_ORDER);
+}
+
+const NumericTypeInfo *
+numeric_get_type_info (GType type)
+{
+    register_glib_numerical_types ();
+
+    gint i;
+    for (i = 0; i < TYPE_TABLE->len; i++)
+    {
+        NumericTypeInfo* ti = &g_array_index (TYPE_TABLE, NumericTypeInfo, i);
+        if (ti->type == type)
+        {
+            return ti;
+        }
+    }
+
+    g_return_val_if_reached (NULL);
+}
+
+const NumericTypeInfo *
+numeric_get_type_info_from_name (const gchar *name)
+{
+    register_glib_numerical_types ();
+
+    gint i;
+    for (i = 0; i < TYPE_TABLE->len; i++)
+    {
+        const NumericTypeInfo* ti = &g_array_index (TYPE_TABLE, NumericTypeInfo, i);
+        if (g_strcmp0 (ti->name, name) == 0)
+        {
+            return ti;
+        }
+    }
+
+    g_return_val_if_reached (NULL);
+}
+
+DEFINE_NUMERIC (int128,     G_BYTE_ORDER)
+DEFINE_NUMERIC (uint128,    G_BYTE_ORDER)
+DEFINE_NUMERIC (float80,    G_BYTE_ORDER)
+DEFINE_NUMERIC (float128,   G_BYTE_ORDER)
+DEFINE_NUMERIC (decimal32,  G_BYTE_ORDER)
+DEFINE_NUMERIC (decimal64,  G_BYTE_ORDER)
+DEFINE_NUMERIC (decimal128, G_BYTE_ORDER)
+DEFINE_NUMERIC (complex,    G_BYTE_ORDER)
+DEFINE_NUMERIC (complex80,  G_BYTE_ORDER)
+DEFINE_NUMERIC (complex128, G_BYTE_ORDER)
+
+DEFINE_NUMERIC_WITH_BYTESWAP (int_le,    G_LITTLE_ENDIAN, int,    gint,    GINT,    LE)
+DEFINE_NUMERIC_WITH_BYTESWAP (int_be,    G_BIG_ENDIAN,    int,    gint,    GINT,    BE)
+DEFINE_NUMERIC_WITH_BYTESWAP (uint_le,   G_LITTLE_ENDIAN, uint,   guint,   GUINT,   LE)
+DEFINE_NUMERIC_WITH_BYTESWAP (uint_be,   G_BIG_ENDIAN,    uint,   guint,   GUINT,   BE)
+DEFINE_NUMERIC_WITH_BYTESWAP (long_le,   G_LITTLE_ENDIAN, long,   glong,   GLONG,   LE)
+DEFINE_NUMERIC_WITH_BYTESWAP (long_be,   G_BIG_ENDIAN,    long,   glong,   GLONG,   BE)
+DEFINE_NUMERIC_WITH_BYTESWAP (ulong_le,  G_LITTLE_ENDIAN, ulong,  gulong,  GLONG,   LE)
+DEFINE_NUMERIC_WITH_BYTESWAP (ulong_be,  G_BIG_ENDIAN,    ulong,  gulong,  GLONG,   BE)
+DEFINE_NUMERIC_WITH_BYTESWAP (int64_le,  G_LITTLE_ENDIAN, int64,  gint64,  GINT64,  LE)
+DEFINE_NUMERIC_WITH_BYTESWAP (int64_be,  G_BIG_ENDIAN,    int64,  gint64,  GINT64,  BE)
+DEFINE_NUMERIC_WITH_BYTESWAP (uint64_le, G_LITTLE_ENDIAN, uint64, guint64, GUINT64, LE)
+DEFINE_NUMERIC_WITH_BYTESWAP (uint64_be, G_BIG_ENDIAN,    uint64, guint64, GUINT64, BE)
+DEFINE_NUMERIC_WITH_BYTESWAP (float_le,  G_LITTLE_ENDIAN, float,  gint32,  GINT32,  LE)
+DEFINE_NUMERIC_WITH_BYTESWAP (float_be,  G_BIG_ENDIAN,    float,  gint32,  GINT32,  BE)
+DEFINE_NUMERIC_WITH_BYTESWAP (double_le, G_LITTLE_ENDIAN, double, gint32,  GINT64,  LE)
+DEFINE_NUMERIC_WITH_BYTESWAP (double_be, G_BIG_ENDIAN,    double, gint32,  GINT64,  BE)
 
 #if HAVE_LIBDFP
 extern void register_printf_dfp (void);
+#endif
 
 __attribute__ ((constructor))
 static void
 numeric_types_init (void)
 {
+#if HAVE_LIBDFP
     register_printf_dfp ();
-}
 #endif
+}

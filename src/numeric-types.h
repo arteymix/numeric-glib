@@ -27,6 +27,34 @@
 
 G_BEGIN_DECLS
 
+/**
+ * Type information for a given registered numeric type.
+ *
+ * @type: Registered GType for this numerical type
+ * @name: Name
+ * @width: Size in bytes
+ * @byte_order: Byte order
+ */
+typedef struct _NumericTypeInfo
+{
+    GType  type;
+    gchar *name;
+    gsize  width;
+    gint   byte_order;
+} NumericTypeInfo;
+
+void numeric_type_register_static        (GType                  type,
+                                          const gchar           *name,
+                                          const NumericTypeInfo *type_info);
+
+void numeric_type_register_static_simple (GType        type,
+                                          const gchar *name,
+                                          gsize        width,
+                                          gint         byte_order);
+
+const NumericTypeInfo * numeric_get_type_info           (GType        type);
+const NumericTypeInfo * numeric_get_type_info_from_name (const gchar *name);
+
 #define DEFINE_NUMERIC_PROTOTYPE(type,ctype)                     \
 typedef ctype   numeric_##type;                                  \
 GType           numeric_##type##_get_type (void) G_GNUC_CONST;   \
