@@ -24,6 +24,7 @@
 #define NUMERIC_TYPES_H
 
 #include <glib-object.h>
+#include <quadmath.h>
 
 G_BEGIN_DECLS
 
@@ -36,7 +37,6 @@ numeric_##type  numeric_value_get_##type  (const GValue *val);  \
 void            numeric_value_set_##type  (GValue *val, numeric_##type x);
 
 // http://gcc.gnu.org/onlinedocs/gcc/Floating-Types.html#Floating-Types
-typedef _Complex float __attribute__((mode(TC))) _Complex128;
 typedef _Complex float __attribute__((mode(XC))) _Complex80;
 
 DEFINE_NUMERIC_PROTOTYPE (int128,     __int128)
@@ -48,7 +48,7 @@ DEFINE_NUMERIC_PROTOTYPE (decimal64,  _Decimal64)
 DEFINE_NUMERIC_PROTOTYPE (decimal128, _Decimal128)
 DEFINE_NUMERIC_PROTOTYPE (complex,    _Complex)
 DEFINE_NUMERIC_PROTOTYPE (complex80,  _Complex80)
-DEFINE_NUMERIC_PROTOTYPE (complex128, _Complex128)
+DEFINE_NUMERIC_PROTOTYPE (complex128, __complex128)
 
 #define NUMERIC_FLOAT128_FORMAT   "Qf"
 #define NUMERIC_FLOAT128_MODIFIER "Q"
