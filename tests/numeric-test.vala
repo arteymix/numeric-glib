@@ -48,6 +48,11 @@ public int main (string[] args)
 	});
 
 	Test.add_func ("/float_be", () => {
+		unowned Numeric.TypeInfo ti = get_type_info (typeof (float_be));
+
+		assert (ti.name == "float_be");
+		assert (ti.byte_order == ByteOrder.BIG_ENDIAN);
+
 		var a = Value (typeof (float));
 		a.set_float (5.0f);
 
