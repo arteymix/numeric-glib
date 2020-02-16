@@ -37,10 +37,10 @@ G_BEGIN_DECLS
  */
 typedef struct _NumericTypeInfo
 {
-    GType        type;
-    const gchar *name;
-    gsize        width;
-    gint         byte_order;
+    GType  type;
+    gchar *name;
+    gsize  width;
+    gint   byte_order;
 } NumericTypeInfo;
 
 void numeric_type_register_static        (GType                  type,

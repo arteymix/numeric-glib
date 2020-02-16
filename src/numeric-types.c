@@ -86,6 +86,25 @@ numeric_##type##_to_##gtype (numeric_##type num)                     \
 
 static GArray *TYPE_TABLE = NULL;
 
+static void
+numeric_type_info_init (NumericTypeInfo *type_info,
+                        GType            type,
+                        const gchar     *name,
+                        gsize            width,
+                        gint             byte_order)
+{
+    type_info->type       = type,
+    type_info->name       = g_strdup (name);
+    type_info->width      = width;
+    type_info->byte_order = byte_order;
+}
+
+static void
+numeric_type_info_clear (NumericTypeInfo *type_info)
+{
+    g_free (type_info->name);
+}
+
 /**
  *
  */
@@ -96,6 +115,7 @@ void numeric_type_register_static (GType                  type,
     if (TYPE_TABLE == NULL)
     {
         TYPE_TABLE = g_array_new (FALSE, FALSE, sizeof (NumericTypeInfo));
+        g_array_set_clear_func (TYPE_TABLE, (GDestroyNotify) numeric_type_info_clear);
     }
 
     /* make sure we don't register the same type twice */
@@ -116,11 +136,9 @@ numeric_type_register_static_simple (GType        type,
                                      gsize        width,
                                      gint         byte_order)
 {
-    NumericTypeInfo ti = {
-        .type       = type,
-        .name       = g_strdup (name),
-        .width      = width,
-        .byte_order = byte_order};
+    NumericTypeInfo ti;
+
+    numeric_type_info_init (&ti, type, name, width, byte_order);
 
     numeric_type_register_static (type, name, &ti);
 }
