@@ -36,9 +36,6 @@ void            numeric_##type##_free     (numeric_##type *num); \
 numeric_##type  numeric_value_get_##type  (const GValue *val);  \
 void            numeric_value_set_##type  (GValue *val, numeric_##type x);
 
-// http://gcc.gnu.org/onlinedocs/gcc/Floating-Types.html#Floating-Types
-typedef _Complex float __attribute__((mode(XC))) _Complex80;
-
 DEFINE_NUMERIC_PROTOTYPE (int128,     __int128)
 DEFINE_NUMERIC_PROTOTYPE (uint128,    unsigned __int128)
 DEFINE_NUMERIC_PROTOTYPE (float80,    __float80)
@@ -46,8 +43,9 @@ DEFINE_NUMERIC_PROTOTYPE (float128,   __float128)
 DEFINE_NUMERIC_PROTOTYPE (decimal32,  _Decimal32)
 DEFINE_NUMERIC_PROTOTYPE (decimal64,  _Decimal64)
 DEFINE_NUMERIC_PROTOTYPE (decimal128, _Decimal128)
-DEFINE_NUMERIC_PROTOTYPE (complex,    _Complex)
-DEFINE_NUMERIC_PROTOTYPE (complex80,  _Complex80)
+DEFINE_NUMERIC_PROTOTYPE (complex32,  float _Complex)
+DEFINE_NUMERIC_PROTOTYPE (complex64,  double _Complex)
+DEFINE_NUMERIC_PROTOTYPE (complex80,  long double _Complex)
 DEFINE_NUMERIC_PROTOTYPE (complex128, __complex128)
 
 #define NUMERIC_FLOAT128_FORMAT   "Qf"
@@ -68,7 +66,8 @@ DEFINE_NUMERIC_PROTOTYPE (complex128, __complex128)
 #define NUMERIC_TYPE_DECIMAL32  (numeric_decimal32_get_type  ())
 #define NUMERIC_TYPE_DECIMAL64  (numeric_decimal64_get_type  ())
 #define NUMERIC_TYPE_DECIMAL128 (numeric_decimal128_get_type ())
-#define NUMERIC_TYPE_COMPLEX    (numeric_complex_get_type    ())
+#define NUMERIC_TYPE_COMPLEX32  (numeric_complex32_get_type  ())
+#define NUMERIC_TYPE_COMPLEX64  (numeric_complex64_get_type  ())
 #define NUMERIC_TYPE_COMPLEX80  (numeric_complex80_get_type  ())
 #define NUMERIC_TYPE_COMPLEX128 (numeric_complex128_get_type ())
 

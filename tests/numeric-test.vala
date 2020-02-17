@@ -32,6 +32,8 @@ public int main (string[] args)
 		assert (sizeof (int128) == 16);
 		assert (sizeof (uint128) == 16);
 
+		assert (sizeof (float) == 4);
+		assert (sizeof (double) == 8);
 		assert (sizeof (float80) == 16);
 		assert (sizeof (float128) == 16);
 
@@ -39,7 +41,9 @@ public int main (string[] args)
 		assert (sizeof (decimal64) == 8);
 		assert (sizeof (decimal128) == 16);
 
-		assert (sizeof (complex) == 16);
+		assert (sizeof (complex64) == 16);
+		assert (sizeof (complex80) == 32);
+		assert (sizeof (complex128) == 32);
 	});
 
 	Test.add_func ("/float_be", () => {
@@ -60,6 +64,30 @@ public int main (string[] args)
 		var d = float_be.from_float (5.0f);
 		assert (5.0f != d);
 		assert (5.0f == d.to_float ());
+	});
+
+	Test.add_func ("/complex32", () => {
+		complex32 c = 5.0f + 2.0f * Numeric.Math.I;
+		assert (c.real () == 5.0f);
+		assert (c.image () == 2.0f);
+	});
+
+	Test.add_func ("/complex64", () => {
+		complex64 c = 5.0 + 2 * Numeric.Math.I;
+		assert (c.real () == 5.0);
+		assert (c.image () == 2.0);
+	});
+
+	Test.add_func ("/complex80", () => {
+		complex80 c = float80.parse ("5.0") + float80.parse ("2.0") * Numeric.Math.I;
+		assert (c.real () == float80.parse ("5.0"));
+		assert (c.image () == float80.parse ("2.0"));
+	});
+
+	Test.add_func ("/complex128", () => {
+		complex128 c = float128.parse ("5.0") + float128.parse ("2.0") * Numeric.Math.I;
+		assert (c.real () == float128.parse ("5.0"));
+		assert (c.image () == float128.parse ("2.0"));
 	});
 
 	Test.add_func ("/float128", () => {

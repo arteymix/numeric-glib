@@ -38,7 +38,8 @@ DEFINE_COPY (numeric_decimal32,  numeric_decimal32)
 DEFINE_COPY (numeric_decimal64,  numeric_decimal64)
 DEFINE_COPY (numeric_decimal128, numeric_decimal128)
 #endif
-DEFINE_COPY (numeric_complex,    numeric_complex)
+DEFINE_COPY (numeric_complex32,  numeric_complex32)
+DEFINE_COPY (numeric_complex64,  numeric_complex64)
 DEFINE_COPY (numeric_complex80,  numeric_complex80)
 DEFINE_COPY (numeric_complex128, numeric_complex128)
 
@@ -75,7 +76,8 @@ DEFINE_CAST_FROM_ALL_FIELDS (numeric_decimal64)
 DEFINE_CAST_FROM_ALL_FIELDS (numeric_decimal128)
 #endif
 
-DEFINE_CAST_FROM_ALL_FIELDS (numeric_complex)
+DEFINE_CAST_FROM_ALL_FIELDS (numeric_complex32)
+DEFINE_CAST_FROM_ALL_FIELDS (numeric_complex64)
 DEFINE_CAST_FROM_ALL_FIELDS (numeric_complex80)
 DEFINE_CAST_FROM_ALL_FIELDS (numeric_complex128)
 
@@ -111,7 +113,8 @@ DEFINE_CAST_TO_ALL_FIELDS (numeric_decimal64)
 DEFINE_CAST_TO_ALL_FIELDS (numeric_decimal128)
 #endif
 
-DEFINE_CAST_TO_ALL_FIELDS (numeric_complex)
+DEFINE_CAST_TO_ALL_FIELDS (numeric_complex32)
+DEFINE_CAST_TO_ALL_FIELDS (numeric_complex64)
 DEFINE_CAST_TO_ALL_FIELDS (numeric_complex80)
 DEFINE_CAST_TO_ALL_FIELDS (numeric_complex128)
 
@@ -134,7 +137,8 @@ DEFINE_CAST(numeric_int128, numeric_decimal32)
 DEFINE_CAST(numeric_int128, numeric_decimal64)
 DEFINE_CAST(numeric_int128, numeric_decimal128)
 #endif
-DEFINE_CAST(numeric_int128, numeric_complex)
+DEFINE_CAST(numeric_int128, numeric_complex32)
+DEFINE_CAST(numeric_int128, numeric_complex64)
 DEFINE_CAST(numeric_int128, numeric_complex80)
 DEFINE_CAST(numeric_int128, numeric_complex128)
 
@@ -147,7 +151,8 @@ DEFINE_CAST(numeric_uint128, numeric_decimal32)
 DEFINE_CAST(numeric_uint128, numeric_decimal64)
 DEFINE_CAST(numeric_uint128, numeric_decimal128)
 #endif
-DEFINE_CAST(numeric_uint128, numeric_complex)
+DEFINE_CAST(numeric_uint128, numeric_complex32)
+DEFINE_CAST(numeric_uint128, numeric_complex64)
 DEFINE_CAST(numeric_uint128, numeric_complex80)
 DEFINE_CAST(numeric_uint128, numeric_complex128)
 
@@ -160,7 +165,8 @@ DEFINE_CAST(numeric_float80, numeric_decimal32)
 DEFINE_CAST(numeric_float80, numeric_decimal64)
 DEFINE_CAST(numeric_float80, numeric_decimal128)
 #endif
-DEFINE_CAST(numeric_float80, numeric_complex)
+DEFINE_CAST(numeric_float80, numeric_complex32)
+DEFINE_CAST(numeric_float80, numeric_complex64)
 DEFINE_CAST(numeric_float80, numeric_complex80)
 DEFINE_CAST(numeric_float80, numeric_complex128)
 
@@ -173,22 +179,38 @@ DEFINE_CAST(numeric_float128, numeric_decimal32)
 DEFINE_CAST(numeric_float128, numeric_decimal64)
 DEFINE_CAST(numeric_float128, numeric_decimal128)
 #endif
-DEFINE_CAST(numeric_float128, numeric_complex)
+DEFINE_CAST(numeric_float128, numeric_complex32)
+DEFINE_CAST(numeric_float128, numeric_complex64)
 DEFINE_CAST(numeric_float128, numeric_complex80)
 DEFINE_CAST(numeric_float128, numeric_complex128)
 
-// complex
-DEFINE_CAST(numeric_complex, numeric_int128)
-DEFINE_CAST(numeric_complex, numeric_uint128)
-DEFINE_CAST(numeric_complex, numeric_float80)
-DEFINE_CAST(numeric_complex, numeric_float128)
+// complex32
+DEFINE_CAST(numeric_complex32, numeric_int128)
+DEFINE_CAST(numeric_complex32, numeric_uint128)
+DEFINE_CAST(numeric_complex32, numeric_float80)
+DEFINE_CAST(numeric_complex32, numeric_float128)
 #ifdef __STDC_DEC_FP__
-DEFINE_CAST(numeric_complex, numeric_decimal32)
-DEFINE_CAST(numeric_complex, numeric_decimal64)
-DEFINE_CAST(numeric_complex, numeric_decimal128)
+DEFINE_CAST(numeric_complex32, numeric_decimal32)
+DEFINE_CAST(numeric_complex32, numeric_decimal64)
+DEFINE_CAST(numeric_complex32, numeric_decimal128)
 #endif
-DEFINE_CAST(numeric_complex, numeric_complex80)
-DEFINE_CAST(numeric_complex, numeric_complex128)
+DEFINE_CAST(numeric_complex32, numeric_complex64)
+DEFINE_CAST(numeric_complex32, numeric_complex80)
+DEFINE_CAST(numeric_complex32, numeric_complex128)
+
+// complex64
+DEFINE_CAST(numeric_complex64, numeric_int128)
+DEFINE_CAST(numeric_complex64, numeric_uint128)
+DEFINE_CAST(numeric_complex64, numeric_float80)
+DEFINE_CAST(numeric_complex64, numeric_float128)
+#ifdef __STDC_DEC_FP__
+DEFINE_CAST(numeric_complex64, numeric_decimal32)
+DEFINE_CAST(numeric_complex64, numeric_decimal64)
+DEFINE_CAST(numeric_complex64, numeric_decimal128)
+#endif
+DEFINE_CAST(numeric_complex64, numeric_complex32)
+DEFINE_CAST(numeric_complex64, numeric_complex80)
+DEFINE_CAST(numeric_complex64, numeric_complex128)
 
 // complex80
 DEFINE_CAST(numeric_complex80, numeric_int128)
@@ -200,7 +222,8 @@ DEFINE_CAST(numeric_complex80, numeric_decimal32)
 DEFINE_CAST(numeric_complex80, numeric_decimal64)
 DEFINE_CAST(numeric_complex80, numeric_decimal128)
 #endif
-DEFINE_CAST(numeric_complex80, numeric_complex)
+DEFINE_CAST(numeric_complex80, numeric_complex32)
+DEFINE_CAST(numeric_complex80, numeric_complex64)
 DEFINE_CAST(numeric_complex80, numeric_complex128)
 
 // complex128
@@ -213,7 +236,8 @@ DEFINE_CAST(numeric_complex128, numeric_decimal32)
 DEFINE_CAST(numeric_complex128, numeric_decimal64)
 DEFINE_CAST(numeric_complex128, numeric_decimal128)
 #endif
-DEFINE_CAST(numeric_complex128, numeric_complex)
+DEFINE_CAST(numeric_complex128, numeric_complex32)
+DEFINE_CAST(numeric_complex128, numeric_complex64)
 DEFINE_CAST(numeric_complex128, numeric_complex80)
 
 #define DEFINE_BYTESWAP_TO(from_type,to_type,order,bits)                                               \
@@ -256,7 +280,8 @@ DEFINE_BYTESWAP_FROM (numeric_double_be, gdouble, BE, 32)
     g_value_register_transform_func (from_type_id, NUMERIC_TYPE_UINT128,    from_type##_to_numeric_uint128);    \
     g_value_register_transform_func (from_type_id, NUMERIC_TYPE_FLOAT80,    from_type##_to_numeric_float80);    \
     g_value_register_transform_func (from_type_id, NUMERIC_TYPE_FLOAT128,   from_type##_to_numeric_float128);   \
-    g_value_register_transform_func (from_type_id, NUMERIC_TYPE_COMPLEX,    from_type##_to_numeric_complex);    \
+    g_value_register_transform_func (from_type_id, NUMERIC_TYPE_COMPLEX32,  from_type##_to_numeric_complex32);  \
+    g_value_register_transform_func (from_type_id, NUMERIC_TYPE_COMPLEX64,  from_type##_to_numeric_complex64);  \
     g_value_register_transform_func (from_type_id, NUMERIC_TYPE_COMPLEX80,  from_type##_to_numeric_complex80);  \
     g_value_register_transform_func (from_type_id, NUMERIC_TYPE_COMPLEX128, from_type##_to_numeric_complex128);
 
@@ -275,7 +300,8 @@ DEFINE_BYTESWAP_FROM (numeric_double_be, gdouble, BE, 32)
     g_value_register_transform_func (NUMERIC_TYPE_UINT128,    to_type_id, numeric_uint128_to_##to_type);   \
     g_value_register_transform_func (NUMERIC_TYPE_FLOAT80,    to_type_id, numeric_float80_to_##to_type);   \
     g_value_register_transform_func (NUMERIC_TYPE_FLOAT128,   to_type_id, numeric_float128_to_##to_type);  \
-    g_value_register_transform_func (NUMERIC_TYPE_COMPLEX,    to_type_id, numeric_complex_to_##to_type);   \
+    g_value_register_transform_func (NUMERIC_TYPE_COMPLEX32,  to_type_id, numeric_complex32_to_##to_type); \
+    g_value_register_transform_func (NUMERIC_TYPE_COMPLEX64,  to_type_id, numeric_complex64_to_##to_type); \
     g_value_register_transform_func (NUMERIC_TYPE_COMPLEX80,  to_type_id, numeric_complex80_to_##to_type); \
     g_value_register_transform_func (NUMERIC_TYPE_COMPLEX128, to_type_id, numeric_complex128_to_##to_type);
 
@@ -296,7 +322,8 @@ numeric_transforms_init (void)
     REGISTER_ALL_TRANSFORMS (NUMERIC_TYPE_DECIMAL64,  numeric_decimal64)
     REGISTER_ALL_TRANSFORMS (NUMERIC_TYPE_DECIMAL128, numeric_decimal128)
 #endif
-    REGISTER_ALL_TRANSFORMS (NUMERIC_TYPE_COMPLEX,    numeric_complex)
+    REGISTER_ALL_TRANSFORMS (NUMERIC_TYPE_COMPLEX32,  numeric_complex32)
+    REGISTER_ALL_TRANSFORMS (NUMERIC_TYPE_COMPLEX64,  numeric_complex64)
     REGISTER_ALL_TRANSFORMS (NUMERIC_TYPE_COMPLEX80,  numeric_complex80)
     REGISTER_ALL_TRANSFORMS (NUMERIC_TYPE_COMPLEX128, numeric_complex128)
 

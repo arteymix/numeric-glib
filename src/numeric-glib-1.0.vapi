@@ -60,7 +60,11 @@ namespace Numeric
 
 	[FloatingType (rank = 12, width = 10)]
 	[CCode (get_value_function = "numeric_value_get_float80", set_value_function = "numeric_value_set_float80")]
-	public struct float80 {}
+	public struct float80
+	{
+		[CCode (cname = "strtold", cheader_filename = "stdlib.h")]
+		public static float80 parse (string s, out char sp = null);
+	}
 
 	[FloatingType (rank = 12, width = 16)]
 	[CCode (cprefix = "FLT128_", get_value_function = "numeric_value_get_float128", set_value_function = "numeric_value_set_float128")]
@@ -159,16 +163,44 @@ namespace Numeric
 	}
 
 	[FloatingType (rank = 6, width = 8)]
-	[CCode (get_value_function = "numeric_value_get_complex", set_value_function = "numeric_value_set_complex")]
-	public struct complex {}
+	[CCode (get_value_function = "numeric_value_get_complex32", set_value_function = "numeric_value_set_complex32")]
+	public struct complex32
+	{
+		[CCode (cname = "crealf", cheader_filename = "complex.h")]
+		public float real ();
+		[CCode (cname = "cimagf", cheader_filename = "complex.h")]
+		public float image ();
+	}
+
+	[FloatingType (rank = 6, width = 8)]
+	[CCode (get_value_function = "numeric_value_get_complex64", set_value_function = "numeric_value_set_complex64")]
+	public struct complex64
+	{
+		[CCode (cname = "creal", cheader_filename = "complex.h")]
+		public double real ();
+		[CCode (cname = "cimag", cheader_filename = "complex.h")]
+		public double image ();
+	}
 
 	[FloatingType (rank = 12, width = 10)]
 	[CCode (get_value_function = "numeric_value_get_complex80", set_value_function = "numeric_value_set_complex80")]
-	public struct complex80 {}
+	public struct complex80
+	{
+		[CCode (cname = "creall", cheader_filename = "complex.h")]
+		public float80 real ();
+		[CCode (cname = "cimagl", cheader_filename = "complex.h")]
+		public float80 image ();
+	}
 
 	[FloatingType (rank = 12, width = 16)]
 	[CCode (get_value_function = "numeric_value_get_complex128", set_value_function = "numeric_value_set_complex128")]
-	public struct complex128 {}
+	public struct complex128
+	{
+		[CCode (cname = "crealq", cheader_filename = "quadmath.h")]
+		public float128 real ();
+		[CCode (cname = "cimagq", cheader_filename = "quadmath.h")]
+		public float128 image ();
+	}
 
 	public struct int32_v16
 	{
@@ -181,6 +213,8 @@ namespace Numeric
 	[CCode (cprefix = "M_", lower_case_cprefix = "", cheader_filename = "quadmath.h")]
 	namespace Math
 	{
+		[CCode (cprefix = "", cheader_filename = "complex.h")]
+		public const complex64 I;
 		public const float128 Eq;
 		public const float128 LOG2Eq;
 		public const float128 LOG10Eq;
