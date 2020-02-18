@@ -119,7 +119,12 @@ namespace Numeric
 		[CCode (cname = "NUMERIC_DECIMAL32_MODIFIER")]
 		public const string FORMAT_MODIFIER;
 
-		[CCode (cname = "strtod32", cheader_filename="dfp/stdlib.h")]
+		[CCode (cname = "DEC_NAN", cheader_filename = "math.h")]
+		public const decimal32 NAN;
+		[CCode (cname = "DEC_INFINITY", cheader_filename = "math.h")]
+		public const decimal32 INFINITY;
+
+		[CCode (cname = "strtod32", cheader_filename = "stdlib.h")]
 		public static decimal32 parse (string s, out char sp = null);
 
 		public string to_string (string format = "%" + FORMAT)
@@ -136,7 +141,7 @@ namespace Numeric
 		[CCode (cname = "NUMERIC_DECIMAL64_MODIFIER")]
 		public const string FORMAT_MODIFIER;
 
-		[CCode (cname = "strtod64", cheader_filename="dfp/stdlib.h")]
+		[CCode (cname = "strtod64", cheader_filename = "stdlib.h")]
 		public static decimal64 parse (string s, out char sp = null);
 
 		public string to_string (string format = "%" + FORMAT)
@@ -153,7 +158,7 @@ namespace Numeric
 		[CCode (cname = "NUMERIC_DECIMAL128_MODIFIER")]
 		public const string FORMAT_MODIFIER;
 
-		[CCode (cname = "strtod128", cheader_filename="dfp/stdlib.h")]
+		[CCode (cname = "strtod128", cheader_filename = "stdlib.h")]
 		public static decimal128 parse (string s, out char sp = null);
 
 		public string to_string (string format = "%" + FORMAT)
@@ -210,7 +215,7 @@ namespace Numeric
 		public void set (size_t index, int val);
 	}
 
-	[CCode (cprefix = "M_", lower_case_cprefix = "", cheader_filename = "quadmath.h")]
+	[CCode (cprefix = "M_", lower_case_cprefix = "", cheader_filename = "math.h,quadmath.h")]
 	namespace Math
 	{
 		[CCode (cprefix = "", cheader_filename = "complex.h")]
@@ -318,5 +323,20 @@ namespace Numeric
 		public complex128 csqrtq (complex128 x);
 		public complex128 ctanq (complex128 x);
 		public complex128 ctanhq (complex128 x);
+		/* the following definitions are in a overwritten math.h file located in dfp/math.h */
+		public const decimal128 Edl;
+		public const decimal128 LOG2Edl;
+		public const decimal128 LOG10Edl;
+		public const decimal128 LN2dl;
+		public const decimal128 LN10dl;
+		public const decimal128 PIdl;
+		public const decimal128 PI_2dl;
+		public const decimal128 PI_4dl;
+		public const decimal128 1_PIdl;
+		public const decimal128 2_PIdl;
+		public const decimal128 2_SQRTPIdl;
+		public const decimal128 SQRT2dl;
+		public const decimal128 SQRT1_2dl;
+		public decimal128 expd128 (decimal128 x);
 	}
 }

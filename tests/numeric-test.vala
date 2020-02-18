@@ -159,58 +159,6 @@ public int main (string[] args)
 		assert (4 == y[3]);
 	});
 
-#if HAVE_LIBDFP
-	Test.add_func ("/decimal32", () => {
-		var a = decimal32.parse ("0.1");
-		var b = decimal32.parse ("0.1");
-		var c = decimal32.parse ("0.1");
-		var d = decimal32.parse ("-0.3");
-
-		var expected = decimal32.parse ("0.0");
-
-		assert (a + b + c + d  ==  expected);
-
-		assert (decimal32.FORMAT_MODIFIER == "H");
-		assert (a.to_string () == "0.100000");
-		assert (expected.to_string () == "0.000000");
-
-		var a_value = GLib.Value (typeof (decimal32));
-		a_value.set_boxed (&a);
-		var a_unboxed = (decimal32*) a_value.get_boxed ();
-		assert (*a_unboxed == decimal32.parse ("0.1"));
-	});
-
-	Test.add_func ("/decimal64", () => {
-		var a = decimal64.parse ("0.1");
-		var b = decimal64.parse ("0.1");
-		var c = decimal64.parse ("0.1");
-		var d = decimal64.parse ("-0.3");
-
-		var expected = decimal64.parse ("0.0");
-
-		assert (a + b + c + d  ==  expected);
-
-		assert (decimal64.FORMAT_MODIFIER == "D");
-		assert (a.to_string () == "0.100000");
-		assert (expected.to_string () == "0.000000");
-	});
-
-	Test.add_func ("/decimal128", () => {
-		var a = decimal128.parse ("0.1");
-		var b = decimal128.parse ("0.1");
-		var c = decimal128.parse ("0.1");
-		var d = decimal128.parse ("-0.3");
-
-		var expected = decimal128.parse ("0.0");
-
-		assert (a + b + c + d  ==  expected);
-
-		assert (decimal128.FORMAT_MODIFIER == "DD");
-		assert (a.to_string () == "0.100000");
-		assert (expected.to_string () == "0.000000");
-	});
-#endif
-
 	Test.add_func ("/gobject", () => {
 		var foo = new Foo ();
 		assert (foo.bar == float128.parse ("0.1"));

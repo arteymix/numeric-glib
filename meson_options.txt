@@ -1,1 +1,0 @@
-option('with_libdfp', type: 'boolean', value: false)
